@@ -15,7 +15,6 @@ class UpcomingEvents extends StatefulWidget {
 }
 
 class _UpcomingEventsState extends State<UpcomingEvents> {
-
   final EventService _eventService = EventService();
   late Future<List<Event>> _futureEvents;
 
@@ -60,23 +59,23 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          BootstrapIcons.calendar2,
-                          color: Colors.white,
-                          size: 80,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        MainText(
-                          text: 'Opps! No upcoming events found',
-                          color: Colors.white,
-                        ),
-                      ],
-                    ));
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      BootstrapIcons.calendar2,
+                      color: Colors.white,
+                      size: 80,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    MainText(
+                      text: 'Opps! No upcoming events found',
+                      color: Colors.white,
+                    ),
+                  ],
+                ));
               } else {
                 final events = snapshot.data!;
                 return ListView(
@@ -87,16 +86,19 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
                     bool isLiveEvent = false; // Initialize isLive to false
 
                     try {
-                      DateTime eventStartDate = DateTime.parse(event.eventStartDate.toString());
+                      DateTime eventStartDate =
+                          DateTime.parse(event.eventStartDate.toString());
                       DateTime now = DateTime.now();
 
                       // Only consider the date part for comparison for dayRemainingText
                       DateTime today = DateTime(now.year, now.month, now.day);
-                      DateTime eventDateOnly = DateTime(eventStartDate.year, eventStartDate.month, eventStartDate.day);
+                      DateTime eventDateOnly = DateTime(eventStartDate.year,
+                          eventStartDate.month, eventStartDate.day);
 
                       final difference = eventDateOnly.difference(today);
                       if (difference.inDays > 1) {
-                        dayRemainingText = "${difference.inDays} days remaining";
+                        dayRemainingText =
+                            "${difference.inDays} days remaining";
                       } else if (difference.inDays == 1) {
                         dayRemainingText = "1 day remaining";
                       } else if (difference.inDays == 0) {
@@ -107,8 +109,10 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
                           // Parse start and end times
                           // Assuming startTime and endTime are in "HH:mm:ss" format
                           final DateFormat timeFormat = DateFormat("HH:mm:ss");
-                          DateTime parsedStartTime = timeFormat.parse(event.eventStartTime);
-                          DateTime parsedEndTime = timeFormat.parse(event.eventEndTime); // Use event.eventEndTime
+                          DateTime parsedStartTime =
+                              timeFormat.parse(event.eventStartTime);
+                          DateTime parsedEndTime = timeFormat.parse(
+                              event.eventEndTime); // Use event.eventEndTime
 
                           // Combine event date with parsed start and end times
                           DateTime eventStartDateTime = DateTime(
@@ -145,26 +149,28 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
                             isLiveEvent = true;
                           }
                         } catch (timeParseError) {
-                          print("Error parsing time for live check: ${event.eventTitle} - $timeParseError");
+                          print(
+                              "Error parsing time for live check: ${event.eventTitle} - $timeParseError");
                         }
                         // --- End of live check ---
-
                       } else {
                         dayRemainingText = "Event has passed";
                       }
                     } catch (e) {
-                      print("Error parsing date for event: ${event.eventTitle} - $e");
+                      print(
+                          "Error parsing date for event: ${event.eventTitle} - $e");
                       dayRemainingText = "Date error";
                     }
 
-
                     return SessionCard(
-                      image: "https://doubles-462709.el.r.appspot.com${event.eventImages}",
+                      image: event.eventImages,
                       sessionTitle: event.eventTitle,
                       startTime: event.eventStartTime,
                       location: event.eventLocation,
-                      eventDate: DateTime.parse(event.eventStartDate.toString()), // Pass DateTime object
-                      dayRemaining: dayRemainingText, // Use the calculated value
+                      eventDate: DateTime.parse(event.eventStartDate
+                          .toString()), // Pass DateTime object
+                      dayRemaining:
+                          dayRemainingText, // Use the calculated value
                       isLive: isLiveEvent, // Pass the calculated isLive status
                       onTap: () {
                         Navigator.pushNamed(

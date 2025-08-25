@@ -55,13 +55,23 @@ class _PastEventsState extends State<PastEvents> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Column(
+                return const Center(
+                    child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(BootstrapIcons.calendar2, color: Colors.white, size: 80,),
-                    SizedBox(height: 20,),
-                    MainText(text: 'Opps! No upcoming events found', color: Colors.white,),
+                    Icon(
+                      BootstrapIcons.calendar2,
+                      color: Colors.white,
+                      size: 80,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    MainText(
+                      text: 'Opps! No upcoming events found',
+                      color: Colors.white,
+                    ),
                   ],
                 ));
               } else {
@@ -70,7 +80,7 @@ class _PastEventsState extends State<PastEvents> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: events.map((event) {
                     return SessionCard(
-                      image: "https://doubles-462709.el.r.appspot.com${event.eventImages}",
+                      image: event.eventImages,
                       sessionTitle: event.eventTitle,
                       startTime: event.eventStartTime,
                       location: event.eventLocation,
