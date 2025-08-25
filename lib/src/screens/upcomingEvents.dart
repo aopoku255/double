@@ -78,13 +78,14 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
                 ));
               } else {
                 final events = snapshot.data!;
+
                 return ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: events.map((event) {
                     // Calculate days remaining
                     String dayRemainingText = "";
                     bool isLiveEvent = false; // Initialize isLive to false
-
+                    print(event.eventImages);
                     try {
                       DateTime eventStartDate =
                           DateTime.parse(event.eventStartDate.toString());
