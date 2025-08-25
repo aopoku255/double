@@ -67,7 +67,8 @@ class _SignupState extends State<Signup> {
         setState(() => _isLoading = false);
 
         if (response.statusCode == 201) {
-          final parsed = SignupResponseModel.fromJson(jsonDecode(response.body));
+          final parsed =
+              SignupResponseModel.fromJson(jsonDecode(response.body));
 
           Navigator.pushNamed(
             context,
@@ -89,8 +90,11 @@ class _SignupState extends State<Signup> {
     }
   }
 
-  final GoogleSignIn googleSignIn = GoogleSignIn(serverClientId: "768884005658-q8sdf1cftb83vkgmd2cht45q1ohsct0h.apps.googleusercontent.com");
-
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId:
+          "768884005658-q8sdf1cftb83vkgmd2cht45q1ohsct0h.apps.googleusercontent.com",
+      serverClientId:
+          "768884005658-q8sdf1cftb83vkgmd2cht45q1ohsct0h.apps.googleusercontent.com");
 
   Future<void> signInWithGoogle() async {
     try {
@@ -122,7 +126,8 @@ class _SignupState extends State<Signup> {
           setState(() => _isLoading = false);
 
           if (response.statusCode == 201) {
-            final parsed = SignupResponseModel.fromJson(jsonDecode(response.body));
+            final parsed =
+                SignupResponseModel.fromJson(jsonDecode(response.body));
 
             Navigator.pushNamed(
               context,
@@ -141,8 +146,6 @@ class _SignupState extends State<Signup> {
           });
           _showSnackbar(_errorMessage!);
         }
-
-
       } else {
         print("User cancelled the sign-in");
       }
@@ -175,7 +178,11 @@ class _SignupState extends State<Signup> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              MainText(text: "GET STARTED WITH DOUBLES", color: Colors.black, fontWeight: FontWeight.bold,),
+              MainText(
+                text: "GET STARTED WITH DOUBLES",
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
               if (_errorMessage != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -250,17 +257,41 @@ class _SignupState extends State<Signup> {
                         },
                       ),
                       SizedBox(height: 20),
-                      Button(text: "Sign up", onTap: _handleSignup, width: MediaQuery.of(context).size.width,),
+                      Button(
+                        text: "Sign up",
+                        onTap: _handleSignup,
+                        width: MediaQuery.of(context).size.width,
+                      ),
                       SizedBox(height: 40),
-                      MainText(text: "OTHER SIGN IN METHODS", color: Colors.black),
+                      MainText(
+                          text: "OTHER SIGN IN METHODS", color: Colors.black),
                       SizedBox(height: 10),
-                      Button(text: "Continue with Google", withIcon: true, color: Colors.white, iconImage: "assets/images/google.png", width: MediaQuery.of(context).size.width, onTap: (){
-                        signInWithGoogle();
-                      },),
+                      Button(
+                        text: "Continue with Google",
+                        withIcon: true,
+                        color: Colors.white,
+                        iconImage: "assets/images/google.png",
+                        width: MediaQuery.of(context).size.width,
+                        onTap: () {
+                          signInWithGoogle();
+                        },
+                      ),
                       SizedBox(height: 10),
-                      Button(text: "Continue with Facebook", withIcon: true, color: Colors.white, iconImage: "assets/images/facebook.png", width: MediaQuery.of(context).size.width,),
+                      Button(
+                        text: "Continue with Facebook",
+                        withIcon: true,
+                        color: Colors.white,
+                        iconImage: "assets/images/facebook.png",
+                        width: MediaQuery.of(context).size.width,
+                      ),
                       SizedBox(height: 10),
-                      Button(text: "Continue with X", withIcon: true, color: Colors.white, iconImage: "assets/images/twitter.png", width: MediaQuery.of(context).size.width,),
+                      Button(
+                        text: "Continue with X",
+                        withIcon: true,
+                        color: Colors.white,
+                        iconImage: "assets/images/twitter.png",
+                        width: MediaQuery.of(context).size.width,
+                      ),
                     ],
                   ),
                 ),

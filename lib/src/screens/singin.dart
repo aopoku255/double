@@ -41,7 +41,7 @@ class _SigninState extends State<Signin> {
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     // signInWithGoogle();
   }
@@ -87,7 +87,6 @@ class _SigninState extends State<Signin> {
   //   }
   // }
 
-
   Future<void> _handleSignin() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
@@ -99,7 +98,6 @@ class _SigninState extends State<Signin> {
           body: jsonEncode({
             'email': _emailController.text,
             'password': _passwordController.text,
-
           }),
         );
 
@@ -109,19 +107,18 @@ class _SigninState extends State<Signin> {
           final parsed = LoginResponse.fromJson(jsonDecode(response.body));
 
           if (parsed != null && parsed.data != null) {
-                  // ✅ Save token using SharedPreferences
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.setString('authToken', parsed.token);
-                  await prefs.setInt('userId', parsed.data.id);
+            // ✅ Save token using SharedPreferences
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString('authToken', parsed.token);
+            await prefs.setInt('userId', parsed.data.id);
 
-
-                  // ✅ Navigate based on first time user
-                  if (parsed.data.firstTimeUser) {
-                    Navigator.pushNamed(context, "/profile", arguments: parsed.data);
-                  } else {
-                    Navigator.pushNamed(context, "/home", arguments: parsed.data);
-                  }
-                }
+            // ✅ Navigate based on first time user
+            if (parsed.data.firstTimeUser) {
+              Navigator.pushNamed(context, "/profile", arguments: parsed.data);
+            } else {
+              Navigator.pushNamed(context, "/home", arguments: parsed.data);
+            }
+          }
         } else {
           final errorBody = jsonDecode(response.body);
           _errorMessage = errorBody['message'] ?? 'Signup failed';
@@ -137,7 +134,11 @@ class _SigninState extends State<Signin> {
     }
   }
 
-  final GoogleSignIn googleSignIn = GoogleSignIn(serverClientId: "768884005658-q8sdf1cftb83vkgmd2cht45q1ohsct0h.apps.googleusercontent.com");
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+      clientId:
+          "768884005658-q8sdf1cftb83vkgmd2cht45q1ohsct0h.apps.googleusercontent.com",
+      serverClientId:
+          "768884005658-q8sdf1cftb83vkgmd2cht45q1ohsct0h.apps.googleusercontent.com");
 
   Future<void> signInWithGoogle() async {
     try {
@@ -147,10 +148,10 @@ class _SigninState extends State<Signin> {
         // Get authentication tokens
         final GoogleSignInAuthentication auth = await account.authentication;
 
-       final email = account.email;
-       final firstName = account.displayName!.split(" ").first;
-       final id = account.id.substring(account.id.length - 6);
-       final  password = "${firstName}@${id}";
+        final email = account.email;
+        final firstName = account.displayName!.split(" ").first;
+        final id = account.id.substring(account.id.length - 6);
+        final password = "${firstName}@${id}";
 
         try {
           final response = await http.post(
@@ -159,7 +160,6 @@ class _SigninState extends State<Signin> {
             body: jsonEncode({
               'email': email,
               'password': password,
-
             }),
           );
 
@@ -174,10 +174,10 @@ class _SigninState extends State<Signin> {
               await prefs.setString('authToken', parsed.token);
               await prefs.setInt('userId', parsed.data.id);
 
-
               // ✅ Navigate based on first time user
               if (parsed.data.firstTimeUser) {
-                Navigator.pushNamed(context, "/profile", arguments: parsed.data);
+                Navigator.pushNamed(context, "/profile",
+                    arguments: parsed.data);
               } else {
                 Navigator.pushNamed(context, "/home", arguments: parsed.data);
               }
@@ -194,7 +194,6 @@ class _SigninState extends State<Signin> {
           });
           _showSnackbar(_errorMessage!);
         }
-
       } else {
         print("User cancelled the sign-in");
       }
@@ -203,11 +202,8 @@ class _SigninState extends State<Signin> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       appBar: AppBar(
@@ -303,11 +299,10 @@ class _SigninState extends State<Signin> {
                           color: Colors.white,
                           iconImage: "assets/images/google.png",
                           width: MediaQuery.of(context).size.width,
-                          onTap: (){
+                          onTap: () {
                             signInWithGoogle();
                           },
                         ),
-
                         SizedBox(
                           height: 10,
                         ),
