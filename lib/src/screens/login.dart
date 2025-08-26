@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/images/homebanner.jpg"),
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -89,7 +89,6 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 // User account image
-
                 // const SizedBox(height: 20),
                 // Input fields wrapped in a container for spacing
                 Spacer(),
