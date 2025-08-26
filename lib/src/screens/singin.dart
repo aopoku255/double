@@ -4,6 +4,7 @@ import 'package:doubles/src/model/loginmodel.dart';
 import 'package:doubles/src/service/auth/google_signin_api.dart';
 import 'package:doubles/src/service/auth/signin_service.dart';
 import 'package:doubles/src/service/baseUrl.dart';
+import 'package:doubles/src/themes/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -207,18 +208,10 @@ class _SigninState extends State<Signin> {
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 10),
-          child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, "/login");
-              },
-              child: MainText(
-                text: "Cancel",
-                color: Colors.black,
-              )),
-        ),
-        title: MainText(text: "Sign in", color: Colors.black),
+        backgroundColor: AppColors.primaryBlue,
+        foregroundColor: Colors.white,
+        automaticallyImplyLeading: true,
+        title: MainText(text: "Sign in"),
         centerTitle: true,
       ),
       body: Padding(
@@ -230,7 +223,7 @@ class _SigninState extends State<Signin> {
             children: [
               MainText(
                 text: "ENTER YOUR EMAIL ADDRESS",
-                color: Colors.black,
+                color: AppColors.primaryBlue,
               ),
               Form(
                   key: _formKey,
@@ -275,6 +268,7 @@ class _SigninState extends State<Signin> {
                           text: "Sign in",
                           onTap: _handleSignin,
                           width: MediaQuery.of(context).size.width,
+                          color: AppColors.primaryBtn,
                         ),
                         TextButton(
                             onPressed: () {},

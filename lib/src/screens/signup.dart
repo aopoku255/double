@@ -1,5 +1,6 @@
 import 'package:doubles/src/model/signup.dart';
 import 'package:doubles/src/service/baseUrl.dart';
+import 'package:doubles/src/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -159,16 +160,10 @@ class _SignupState extends State<Signup> {
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(0.95),
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 10),
-          child: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: MainText(text: "Cancel", color: Colors.black),
-          ),
-        ),
-        title: MainText(text: "Sign up", color: Colors.black),
+        backgroundColor: AppColors.primaryBlue,
+       foregroundColor: Colors.white,
+       automaticallyImplyLeading: true,
+        title: MainText(text: "Sign up"),
         centerTitle: true,
       ),
       body: Padding(
@@ -180,7 +175,7 @@ class _SignupState extends State<Signup> {
             children: [
               MainText(
                 text: "GET STARTED WITH DOUBLES",
-                color: Colors.black,
+                color: AppColors.primaryBlue,
                 fontWeight: FontWeight.bold,
               ),
               if (_errorMessage != null)
@@ -261,6 +256,7 @@ class _SignupState extends State<Signup> {
                         text: "Sign up",
                         onTap: _handleSignup,
                         width: MediaQuery.of(context).size.width,
+                        color: AppColors.primaryBtn,
                       ),
                       SizedBox(height: 40),
                       MainText(

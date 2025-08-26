@@ -1,3 +1,4 @@
+import 'package:doubles/src/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldInput extends StatefulWidget {
@@ -45,13 +46,15 @@ class _TextFieldInputState extends State<TextFieldInput> {
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 16,
-            color: Colors.black.withOpacity(0.7),
+            color: AppColors.primaryBlue,
           ),
         ),
         const SizedBox(height: 8),
         isDropdown
             ? DropdownButtonFormField<String>(
-          value: widget.dropdownItems!.contains(widget.value) ? widget.value : null,
+          value: widget.dropdownItems!.contains(widget.value)
+              ? widget.value
+              : null,
           items: widget.dropdownItems!
               .map((item) => DropdownMenuItem(
             value: item,
@@ -62,34 +65,64 @@ class _TextFieldInputState extends State<TextFieldInput> {
           validator: widget.validator,
           decoration: InputDecoration(
             hintText: widget.hintText ?? 'Select an option',
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+            border: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(
+                color: AppColors.primaryBlue,
+              ),
             ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(
+                color: AppColors.primaryBlue,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(
+                color: AppColors.primaryBlue,
+                width: 2,
+              ),
             ),
           ),
         )
             : TextFormField(
           controller: widget.controller,
           validator: widget.validator,
-          obscureText: widget.isPasswordField == true ? _obscureText : false,
+          obscureText:
+          widget.isPasswordField == true ? _obscureText : false,
           cursorColor: Colors.black,
           maxLines: widget.isPasswordField == false
               ? (widget.textarea == true ? 5 : 1)
               : 1,
           decoration: InputDecoration(
             hintText: widget.hintText,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+            border: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(
+                color: AppColors.primaryBlue,
+              ),
             ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(
+                color: AppColors.primaryBlue,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(
+                color: AppColors.primaryBlue,
+                width: 2,
+              ),
             ),
             suffixIcon: widget.isPasswordField == true
                 ? IconButton(
               icon: Icon(
-                _obscureText ? Icons.visibility_off : Icons.visibility,
+                _obscureText
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+                color: AppColors.primaryBtn,
               ),
               onPressed: () {
                 setState(() {

@@ -191,7 +191,7 @@ class _EventDetailsState extends State<EventDetails> {
                               width: MediaQuery.of(context).size.width - 100,
                               child: MainText(
                                 text: event.eventLocation,
-                                maxLines: 1,
+                                maxLines: 2,
                               ))
                         ],
                       ),

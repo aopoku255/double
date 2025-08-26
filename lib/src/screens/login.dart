@@ -3,6 +3,7 @@
 // import 'package:dachurchman/src/themes/colors.dart';
 
 import 'package:doubles/src/layout.dart';
+import 'package:doubles/src/themes/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/bold_text.dart';
@@ -60,10 +61,11 @@ class _LoginState extends State<Login> {
         height: 30,
         child: MainText(
           text: "Doubles © 2025",
-          color: Colors.black,
+          color: Colors.black54,
         ),
       ),
       body: Stack(
+
         children: [
           ClipPath(
             clipper: WaveClipper(),
@@ -72,8 +74,8 @@ class _LoginState extends State<Login> {
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/redbull.jpeg"),
-                  fit: BoxFit.cover,
+                  image: AssetImage("assets/images/homebanner.jpg"),
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
@@ -82,6 +84,7 @@ class _LoginState extends State<Login> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             margin: const EdgeInsets.only(bottom: 100),
+
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -90,29 +93,29 @@ class _LoginState extends State<Login> {
                 // const SizedBox(height: 20),
                 // Input fields wrapped in a container for spacing
                 Spacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-
-                ),
+                // Container(
+                //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                //
+                //   decoration: BoxDecoration(
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.circular(10),
+                //   ),
+                //
+                // ),
                 const SizedBox(height: 20),
-                BoldText(text: "Welcome", color: Colors.black, fontSize: 30,),
+                BoldText(text: "Welcome", color: AppColors.primaryBlue, fontSize: 30,),
                 SizedBox(height: 5,),
-                MainText(text: "Get started with your account", color: Colors.black,),
+                MainText(text: "Get started with DOUBLES", color: AppColors.primaryBlue,),
                 SizedBox(height: 20,),
                 Button(text: "Sign in", onTap: (){
                   Navigator.pushNamed(context, "/signin");
-                },),
+                }, color: AppColors.primaryBtn,),
                 SizedBox(height: 20,),
                 Button(text: "Sign up", onTap: (){
                   Navigator.pushNamed(context, "/signup");
-                }, ),
+                }, color: AppColors.primaryBtn),
                 SizedBox(height: 20,),
-                Button(text: "Sign in as a guest"),
+                Button(text: "Sign in as a guest", color: AppColors.primaryBtn),
 
               ],
             ),
