@@ -538,8 +538,7 @@ class _EventDetailsState extends State<EventDetails> {
                                           SizedBox(
                                             height: 10,
                                           ),
-                                          Image.network(
-                                              "https://doubles-462709.el.r.appspot.com${snapshot.data?[0].qrcode}"),
+                                          Image.network(snapshot.data![0].qrcode),
                                         ],
                                       ),
                                     );
