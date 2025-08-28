@@ -35,10 +35,10 @@ class User {
   final String? phone;
   final String? gender;
   final String? image;
-  final int? age;
+  final String? age;
   final String? occupation;
   final String? nameOfSpouse;
-  final int? ageOfSpouse;
+  final String? ageOfSpouse;
   final String? phoneNumberOfSpouse;
   final String? marriageDuration;
   final bool? firstTimeUser;
@@ -75,10 +75,10 @@ class User {
       phone: json['phone'],
       gender: json['gender'],
       image: json['image'],
-      age: json['age'] ?? 0,
+      age: json['age'],
       occupation: json['occupation'],
       nameOfSpouse: json['nameOfSpouse'],
-      ageOfSpouse: json['ageOfSpouse'] ?? 0,
+      ageOfSpouse: json['ageOfSpouse'],
       phoneNumberOfSpouse: json['phoneNumberOfSpouse'],
       marriageDuration: json['marriageDuration'],
       firstTimeUser: json['firstTimeUser'],

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "386920527201",
+    "project_id": "doubles-4dc90",
+    "storage_bucket": "doubles-4dc90.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386920527201:android:d827a64cba935f8adac120",
+        "android_client_info": {
+          "package_name": "com.example.doubles"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtyPRt12ny_pa6DKdb4GJUBHllg-PA9yg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

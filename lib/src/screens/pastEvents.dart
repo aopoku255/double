@@ -35,10 +35,11 @@ class _PastEventsState extends State<PastEvents> {
       height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
+
         gradient: LinearGradient(
           colors: [
-            Color(0xFFC052DF),
-            Color(0xFF23236C),
+            Color(0xFF120C1C), // Very dark purple
+            Color(0xFF3B1C32), // Plum shade
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

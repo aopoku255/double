@@ -1,5 +1,6 @@
 
 import 'package:doubles/src/screens/Info.dart';
+import 'package:doubles/src/screens/Notifications.dart';
 import 'package:doubles/src/screens/Profile.dart';
 import 'package:doubles/src/screens/SplashScreen.dart';
 import 'package:doubles/src/screens/event_details.dart';
@@ -26,6 +27,7 @@ Map<String, WidgetBuilder> get appRoutes{
     '/home': (context) => const Home(),
     '/profile': (context) => const Profile(),
     '/info': (context) => const Info(),
+    '/notifications': (context) => const Notifications(),
 
   };
   }

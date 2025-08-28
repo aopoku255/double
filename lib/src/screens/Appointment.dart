@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:doubles/src/widgets/main_text.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -11,38 +13,39 @@ class Appointment extends StatefulWidget {
 
 class _AppointmentState extends State<Appointment> {
   late final WebViewController _controller;
-  bool _isLoading = true; // track loading state
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
 
     _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted) // enable JS
-      ..setBackgroundColor(const Color(0x00000000)) // transparent background
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (url) {
-            setState(() {
-              _isLoading = true;
-            });
+            if (!kIsWeb) {
+              setState(() => _isLoading = true);
+            }
           },
           onPageFinished: (url) {
-            setState(() {
-              _isLoading = false;
-            });
-          },
-          onNavigationRequest: (request) {
-            if (request.url.startsWith("http")) {
-              return NavigationDecision.navigate;
+            if (!kIsWeb) {
+              setState(() => _isLoading = false);
             }
-            return NavigationDecision.prevent;
           },
         ),
       )
-      ..loadRequest(
-        Uri.parse("https://doubles.zapier.app/"), // your link here
-      );
+      ..loadRequest(Uri.parse("https://doubles.zapier.app/"));
+
+    if (kIsWeb) {
+      // Fallback: remove loader after 3 seconds on web
+      Timer(const Duration(seconds: 3), () {
+        if (mounted) {
+          setState(() => _isLoading = false);
+        }
+      });
+    }
   }
 
   @override
@@ -55,18 +58,14 @@ class _AppointmentState extends State<Appointment> {
         ),
         centerTitle: true,
       ),
-      body: Container(
-        margin: EdgeInsets.only(bottom: 30),
-        child: Stack(
-          children: [
-            WebViewWidget(controller: _controller),
-            if (_isLoading)
-              const Center(
-                child: CircularProgressIndicator(),
-              ),
-
-          ],
-        ),
+      body: Stack(
+        children: [
+          WebViewWidget(controller: _controller),
+          if (_isLoading)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
       ),
     );
   }

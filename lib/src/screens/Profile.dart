@@ -32,6 +32,8 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _marriageDurationController = TextEditingController();
 
   String? selectedGender;
+  String? selectedAge;
+  String? selecteSpousedAge;
 
   @override
   void initState() {
@@ -56,10 +58,11 @@ class _ProfileState extends State<Profile> {
         _phoneController.text = _profile?.data.phone ?? '';
         _ageController.text = _profile?.data.age.toString() ??  '';
         selectedGender = _profile?.data.gender ?? ''; // 👈 set selected gender here
+        selectedAge = _profile?.data.age.toString() ?? '';
         _occupationController.text = _profile?.data.occupation ?? '';
         _spouseNameController.text = _profile?.data.nameOfSpouse ?? '';
         _spousePhoneController.text = _profile?.data.phoneNumberOfSpouse ?? '';
-        _spouseAgeController.text = _profile?.data.ageOfSpouse.toString() ?? '';
+        selecteSpousedAge = _profile?.data.ageOfSpouse.toString() ?? '';
         _marriageDurationController.text = _profile?.data.marriageDuration ?? '';
         _isLoading = false;
       });
@@ -116,10 +119,10 @@ class _ProfileState extends State<Profile> {
                 "phone": _phoneController.text,
                 "gender": selectedGender, // use selectedGender, not controller
                 "occupation": _occupationController.text,
-                "age": _ageController.text,
+                "age": selectedAge,
                 "nameOfSpouse": _spouseNameController.text,
                 "phoneNumberOfSpouse": _spousePhoneController.text,
-                "ageOfSpouse": _spouseAgeController.text,
+                "ageOfSpouse": selecteSpousedAge,
                 "marriageDuration": _marriageDurationController.text,
                 "firstTimeUser": false
               };
@@ -170,13 +173,33 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 20),
               TextFieldInput(label: 'Occupation', controller: _occupationController),
               const SizedBox(height: 20),
-              TextFieldInput(label: 'Age', controller: _ageController),
+            TextFieldInput(
+              label: 'Age',
+              dropdownItems: ['18 - 34', '35 - 49', '50 and above'],
+              value: selectedAge == null ? "18 - 34" : selectedAge,
+              onChanged: (val) {
+                setState(() {
+                  selectedAge = val!;
+                  _ageController.text = val;
+                });
+              },
+            ),
               const SizedBox(height: 20),
               TextFieldInput(label: 'Name of Spouse', controller: _spouseNameController),
               const SizedBox(height: 20),
               TextFieldInput(label: 'Phone Number of Spouse', controller: _spousePhoneController),
               const SizedBox(height: 20),
-              TextFieldInput(label: 'Age of Spouse', controller: _spouseAgeController),
+              TextFieldInput(
+                label: 'Spouse Age',
+                dropdownItems: ['18 - 34', '35 - 49', '50 and above'],
+                value: selecteSpousedAge == null ? "18 - 34" : selecteSpousedAge,
+                onChanged: (val) {
+                  setState(() {
+                    selecteSpousedAge = val!;
+                    _spouseAgeController.text = val;
+                  });
+                },
+              ),
               const SizedBox(height: 20),
               TextFieldInput(label: 'How long have you been married', controller: _marriageDurationController),
               SizedBox(height: 100,)

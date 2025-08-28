@@ -40,11 +40,16 @@ class _EventsState extends State<Events> {
         extendBodyBehindAppBar: true,
         extendBody: true,
         appBar: AppBar(
-          backgroundColor: Color(0xFFC052DF),
+          backgroundColor: Color(0xFF3B1C32),
           elevation: 0,
-          leading: const Padding(
+          leading:  Padding(
             padding: EdgeInsets.all(8.0),
-            child: OvalIcon(icon: Icons.notifications_outlined),
+            child: InkWell(
+              onTap: (){
+                Navigator.pushNamed(context, "/profile");
+              },
+                child: OvalIcon(icon: Icons.notifications_outlined)
+            ),
           ),
           actions: [
             const OvalIcon(icon: Icons.more_vert),
