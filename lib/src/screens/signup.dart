@@ -82,7 +82,6 @@ class _SignupState extends State<Signup> {
           _showSnackbar(_errorMessage!);
         }
       } catch (e) {
-        print(e);
         setState(() {
           _errorMessage = 'Something went wrong. Please try again.';
         });
@@ -141,14 +140,13 @@ class _SignupState extends State<Signup> {
             _showSnackbar(_errorMessage!);
           }
         } catch (e) {
-          print(e);
           setState(() {
             _errorMessage = 'Something went wrong. Please try again.';
           });
           _showSnackbar(_errorMessage!);
         }
       } else {
-        print("User cancelled the sign-in");
+        // print("User cancelled the sign-in");
       }
     } catch (e) {
       print("Error during Google sign-in: $e");
@@ -161,8 +159,8 @@ class _SignupState extends State<Signup> {
       backgroundColor: Colors.white.withOpacity(0.95),
       appBar: AppBar(
         backgroundColor: AppColors.primaryBlue,
-       foregroundColor: Colors.white,
-       automaticallyImplyLeading: true,
+        foregroundColor: Colors.white,
+        automaticallyImplyLeading: true,
         title: MainText(text: "Sign up"),
         centerTitle: true,
       ),

@@ -28,8 +28,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(_pageIndex);
-    print(_pages.length);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -44,7 +42,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: PageView.builder(
                   itemCount: _pages.length,
                   controller: _pageController,
-                  onPageChanged: (index){
+                  onPageChanged: (index) {
                     setState(() {
                       _pageIndex = index;
                     });
@@ -56,33 +54,51 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               ),
-              _pageIndex + 1 == _pages.length ? InkWell(onTap: (){
-                Navigator.pushNamed(context, '/login');
-              }, child: Container(padding: EdgeInsets.symmetric(vertical: 20), child: Text("Proceed", textAlign: TextAlign.center, style: TextStyle(color: Colors.white),), width: MediaQuery.of(context).size.width - 20, decoration: BoxDecoration(color: AppColors.primaryRed, borderRadius: BorderRadius.circular(10)),)) : Row(
-                children: [
-                  ...List.generate(_pages.length, (index) => Padding(
-                    padding: const EdgeInsets.only(right: 4),
-                    child: DotIndicator(isActive: index == _pageIndex),
-                  )),
-                  Spacer(),
-                  SizedBox(
-                    height: 60,
-                    width: 60,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _pageController.nextPage(
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.ease);
+              _pageIndex + 1 == _pages.length
+                  ? InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/login');
                       },
-                      style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(),
-                          backgroundColor: AppColors.primaryRed,
-                          foregroundColor: Colors.white),
-                      child: Icon(Icons.arrow_forward),
-                    ),
-                  ),
-                ],
-              )
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: Text(
+                          "Proceed",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        width: MediaQuery.of(context).size.width - 20,
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryRed,
+                            borderRadius: BorderRadius.circular(10)),
+                      ))
+                  : Row(
+                      children: [
+                        ...List.generate(
+                            _pages.length,
+                            (index) => Padding(
+                                  padding: const EdgeInsets.only(right: 4),
+                                  child: DotIndicator(
+                                      isActive: index == _pageIndex),
+                                )),
+                        Spacer(),
+                        SizedBox(
+                          height: 60,
+                          width: 60,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _pageController.nextPage(
+                                  duration: Duration(milliseconds: 300),
+                                  curve: Curves.ease);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                shape: CircleBorder(),
+                                backgroundColor: AppColors.primaryRed,
+                                foregroundColor: Colors.white),
+                            child: Icon(Icons.arrow_forward),
+                          ),
+                        ),
+                      ],
+                    )
             ],
           ),
         ),
@@ -125,19 +141,20 @@ final List<Onboard> _pages = [
     image: "assets/images/gather.png",
     title: "Interactive & Practical Approach",
     description:
-    "Our workshops are interactive, using practical tools and insights to empower couples to tackle issues proactively, fostering open communication and deeper connections.",
+        "Our workshops are interactive, using practical tools and insights to empower couples to tackle issues proactively, fostering open communication and deeper connections.",
   ),
   Onboard(
     image: "assets/images/events.png",
     title: "Strengthening Marriages with Purpose",
-    description: "Doubles is a quarterly workshop designed to engage couples in meaningful conversations that nurture, support, and strengthen the bonds of marriage according to God's divine plan.",
+    description:
+        "Doubles is a quarterly workshop designed to engage couples in meaningful conversations that nurture, support, and strengthen the bonds of marriage according to God's divine plan.",
   ),
   Onboard(
     image: "assets/images/schedule.png",
     title: "Equipping Couples with the Right Tools",
-    description: " Since its launch in 2022, Doubles has been a game-changer for marriages, providing couples with essential tools and unwavering support to enhance their relationships.",
+    description:
+        " Since its launch in 2022, Doubles has been a game-changer for marriages, providing couples with essential tools and unwavering support to enhance their relationships.",
   ),
-
 ];
 
 class OnboardingContent extends StatelessWidget {
@@ -154,7 +171,6 @@ class OnboardingContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-
         const Spacer(),
 
         // Image.asset(
@@ -165,13 +181,20 @@ class OnboardingContent extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .displaySmall!
-              .copyWith(fontWeight: FontWeight.w500, color: AppColors.primaryBlue),
+          style: Theme.of(context).textTheme.displaySmall!.copyWith(
+              fontWeight: FontWeight.w500, color: AppColors.primaryBlue),
         ),
-        SizedBox(height: 30,),
-        Text(description, style: Theme.of(context).textTheme!.labelLarge!.copyWith(color: AppColors.primaryBlue), textAlign: TextAlign.center,),
+        SizedBox(
+          height: 30,
+        ),
+        Text(
+          description,
+          style: Theme.of(context)
+              .textTheme!
+              .labelLarge!
+              .copyWith(color: AppColors.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
         const Spacer()
       ],
     );

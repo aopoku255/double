@@ -6,11 +6,10 @@ import 'package:http/http.dart' as http;
 
 class PersonalQuestionService {
   /// Fetch all questions
-  Future<List<PersonalQuestion>> fetchQuestions({
-    required int userId
-}) async {
+  Future<List<PersonalQuestion>> fetchQuestions({required int userId}) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/questions/question/${userId}'));
+      final response =
+          await http.get(Uri.parse('$baseUrl/questions/question/${userId}'));
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonData = jsonDecode(response.body);
@@ -30,17 +29,17 @@ class PersonalQuestionService {
     required bool isPublic,
   }) async {
     try {
-      final body = jsonEncode({"question": question.toString(), "isUser": true, "isPublic": isPublic});
-
+      final body = jsonEncode({
+        "question": question.toString(),
+        "isUser": true,
+        "isPublic": isPublic
+      });
 
       final response = await http.post(
         Uri.parse('$baseUrl/questions/question/$userId'),
         headers: {"Content-Type": "application/json"},
         body: body,
       );
-
-      debugPrint("Response status: ${response.statusCode}");
-      debugPrint("Response body: ${response.body}");
 
       if (response.statusCode == 201) {
         final data = jsonDecode(response.body);

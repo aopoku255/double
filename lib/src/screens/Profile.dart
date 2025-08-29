@@ -29,7 +29,8 @@ class _ProfileState extends State<Profile> {
   TextEditingController _spouseNameController = TextEditingController();
   final TextEditingController _spousePhoneController = TextEditingController();
   final TextEditingController _spouseAgeController = TextEditingController();
-  final TextEditingController _marriageDurationController = TextEditingController();
+  final TextEditingController _marriageDurationController =
+      TextEditingController();
 
   String? selectedGender;
   String? selectedAge;
@@ -45,25 +46,26 @@ class _ProfileState extends State<Profile> {
     final profileService = ProfileService();
     final pref = await SharedPreferences.getInstance();
     final userId = pref.getInt("userId");
-    print("User ID: ${userId}");
+
     final profile = await profileService.getUserProfile(userId.toString());
 
     if (mounted && profile != null) {
-      print(profile.data.gender);
       setState(() {
         _profile = profile;
         _firstNameController.text = profile.data.firstName ?? '';
         _lastNameController.text = profile.data.lastName ?? '';
         _emailController.text = profile.data.email ?? '';
         _phoneController.text = _profile?.data.phone ?? '';
-        _ageController.text = _profile?.data.age.toString() ??  '';
-        selectedGender = _profile?.data.gender ?? ''; // 👈 set selected gender here
+        _ageController.text = _profile?.data.age.toString() ?? '';
+        selectedGender =
+            _profile?.data.gender ?? ''; // 👈 set selected gender here
         selectedAge = _profile?.data.age.toString() ?? '';
         _occupationController.text = _profile?.data.occupation ?? '';
         _spouseNameController.text = _profile?.data.nameOfSpouse ?? '';
         _spousePhoneController.text = _profile?.data.phoneNumberOfSpouse ?? '';
         selecteSpousedAge = _profile?.data.ageOfSpouse.toString() ?? '';
-        _marriageDurationController.text = _profile?.data.marriageDuration ?? '';
+        _marriageDurationController.text =
+            _profile?.data.marriageDuration ?? '';
         _isLoading = false;
       });
     } else {
@@ -72,8 +74,6 @@ class _ProfileState extends State<Profile> {
       });
     }
   }
-
-
 
   @override
   void dispose() {
@@ -93,13 +93,12 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
-          onTap: (){
-            Navigator.pushNamed(context, "/home");
-          },
+            onTap: () {
+              Navigator.pushNamed(context, "/home");
+            },
             child: Icon(BootstrapIcons.arrow_left)),
         title: const MainText(text: "Profile", color: Colors.black),
         centerTitle: true,
@@ -129,8 +128,6 @@ class _ProfileState extends State<Profile> {
 
               final response = await SignInService().updateUser(updatedData);
 
-
-
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Profile updated successfully")),
               );
@@ -142,71 +139,84 @@ class _ProfileState extends State<Profile> {
           },
         ),
       ),
-
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              TextFieldInput(label: 'First Name', controller: _firstNameController),
-              const SizedBox(height: 20),
-              TextFieldInput(label: 'Last Name', controller: _lastNameController),
-              const SizedBox(height: 20),
-              TextFieldInput(label: 'Email', controller: _emailController),
-              const SizedBox(height: 20),
-              TextFieldInput(label: 'Phone', controller: _phoneController),
-              const SizedBox(height: 20),
-              TextFieldInput(
-                label: 'Gender',
-                dropdownItems: ['Male', 'Female'],
-                value: selectedGender == null ? "Male" : selectedGender,
-                onChanged: (val) {
-                  setState(() {
-                    selectedGender = val!;
-                    _genderController.text = val;
-                  });
-                },
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    TextFieldInput(
+                        label: 'First Name', controller: _firstNameController),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                        label: 'Last Name', controller: _lastNameController),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                        label: 'Email', controller: _emailController),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                        label: 'Phone', controller: _phoneController),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                      label: 'Gender',
+                      dropdownItems: ['Male', 'Female'],
+                      value: selectedGender == null ? "Male" : selectedGender,
+                      onChanged: (val) {
+                        setState(() {
+                          selectedGender = val!;
+                          _genderController.text = val;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                        label: 'Occupation', controller: _occupationController),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                      label: 'Age',
+                      dropdownItems: ['18 - 34', '35 - 49', '50 and above'],
+                      value: selectedAge == null ? "18 - 34" : selectedAge,
+                      onChanged: (val) {
+                        setState(() {
+                          selectedAge = val!;
+                          _ageController.text = val;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                        label: 'Name of Spouse',
+                        controller: _spouseNameController),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                        label: 'Phone Number of Spouse',
+                        controller: _spousePhoneController),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                      label: 'Spouse Age',
+                      dropdownItems: ['18 - 34', '35 - 49', '50 and above'],
+                      value: selecteSpousedAge == null
+                          ? "18 - 34"
+                          : selecteSpousedAge,
+                      onChanged: (val) {
+                        setState(() {
+                          selecteSpousedAge = val!;
+                          _spouseAgeController.text = val;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    TextFieldInput(
+                        label: 'How long have you been married',
+                        controller: _marriageDurationController),
+                    SizedBox(
+                      height: 100,
+                    )
+                  ],
+                ),
               ),
-
-              const SizedBox(height: 20),
-              TextFieldInput(label: 'Occupation', controller: _occupationController),
-              const SizedBox(height: 20),
-            TextFieldInput(
-              label: 'Age',
-              dropdownItems: ['18 - 34', '35 - 49', '50 and above'],
-              value: selectedAge == null ? "18 - 34" : selectedAge,
-              onChanged: (val) {
-                setState(() {
-                  selectedAge = val!;
-                  _ageController.text = val;
-                });
-              },
             ),
-              const SizedBox(height: 20),
-              TextFieldInput(label: 'Name of Spouse', controller: _spouseNameController),
-              const SizedBox(height: 20),
-              TextFieldInput(label: 'Phone Number of Spouse', controller: _spousePhoneController),
-              const SizedBox(height: 20),
-              TextFieldInput(
-                label: 'Spouse Age',
-                dropdownItems: ['18 - 34', '35 - 49', '50 and above'],
-                value: selecteSpousedAge == null ? "18 - 34" : selecteSpousedAge,
-                onChanged: (val) {
-                  setState(() {
-                    selecteSpousedAge = val!;
-                    _spouseAgeController.text = val;
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              TextFieldInput(label: 'How long have you been married', controller: _marriageDurationController),
-              SizedBox(height: 100,)
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

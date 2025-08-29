@@ -54,7 +54,7 @@ class _OtpState extends State<Otp> {
     setState(() {
       otpCode = code;
     });
-    debugPrint("Entered OTP: $code");
+    ;
   }
 
   @override
@@ -68,7 +68,8 @@ class _OtpState extends State<Otp> {
   // }
 
   Future<void> _verifyOtp() async {
-    final url = Uri.parse('${baseUrl}/auth/verify-otp'); // Replace with your real endpoint
+    final url = Uri.parse(
+        '${baseUrl}/auth/verify-otp'); // Replace with your real endpoint
 
     try {
       final response = await http.post(
@@ -77,29 +78,28 @@ class _OtpState extends State<Otp> {
         body: jsonEncode({'userId': userId, 'code': otpCode}),
       );
 
-
-
       if (response.statusCode == 200) {
-        debugPrint("OTP verified successfully");
         if (!mounted) return;
-        Navigator.pushReplacementNamed(context, '/signin'); // Change route as needed
+        Navigator.pushReplacementNamed(
+            context, '/signin'); // Change route as needed
       } else {
         final body = jsonDecode(response.body);
         _showSnackbar(body['message'] ?? 'OTP verification failed');
       }
     } catch (e) {
-      print(e);
       _showSnackbar('Something went wrong. Please try again.');
     }
   }
 
   void _showSnackbar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
   Widget build(BuildContext context) {
-    final signupResponse = ModalRoute.of(context)?.settings.arguments as SignupResponseModel;
+    final signupResponse =
+        ModalRoute.of(context)?.settings.arguments as SignupResponseModel;
     userId = signupResponse.data.userId;
     return Scaffold(
       appBar: AppBar(title: const Text("Enter OTP"), centerTitle: true),
@@ -125,7 +125,9 @@ class _OtpState extends State<Otp> {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: otpCode.length == 6 && _remainingSeconds > 0 ? _verifyOtp : null,
+              onPressed: otpCode.length == 6 && _remainingSeconds > 0
+                  ? _verifyOtp
+                  : null,
               child: Button(text: "Verify"),
             ),
           ],

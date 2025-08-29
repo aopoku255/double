@@ -24,9 +24,9 @@ class EventService {
       throw Exception('Failed to load events');
     }
   }
+
   Future<List<Event>> getPastEvents() async {
     final response = await http.get(Uri.parse(pastUrls));
-
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
@@ -39,12 +39,14 @@ class EventService {
       throw Exception('Failed to load events');
     }
   }
+
   Future<List<Registrant>> getRegistrants(int userId, int eventId) async {
-    final response = await http.get(Uri.parse('$baseUrl/event/get-registrants?userId=${userId}&eventId=${eventId}'));
+    final response = await http.get(Uri.parse(
+        '$baseUrl/event/get-registrants?userId=${userId}&eventId=${eventId}'));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final Map<String, dynamic> responseBody = jsonDecode(response.body);
-      print(response.body);
+
       if (responseBody['status'] == 'Success') {
         final registrantsModel = RegistrantsModel.fromJson(responseBody);
         return registrantsModel.data;
@@ -52,7 +54,8 @@ class EventService {
         throw Exception(responseBody['message'] ?? 'Unknown error');
       }
     } else {
-      throw Exception('Failed to load registrants. Status code: ${response.statusCode}');
+      throw Exception(
+          'Failed to load registrants. Status code: ${response.statusCode}');
     }
   }
 
@@ -61,7 +64,8 @@ class EventService {
     required int userId,
     required bool attendingWithSpouse,
   }) async {
-    final Uri url = Uri.parse('$baseUrl/event/register-events'); // Adjust the API endpoint if different
+    final Uri url = Uri.parse(
+        '$baseUrl/event/register-events'); // Adjust the API endpoint if different
 
     try {
       final Map<String, dynamic> requestBody = {
@@ -80,23 +84,23 @@ class EventService {
         body: json.encode(requestBody), // Encode the body to JSON string
       );
 
-      print(response.body);
-
       if (response.statusCode == 201 || response.statusCode == 200) {
         // Success: Parse the JSON response into your model
         final Map<String, dynamic> responseData = json.decode(response.body);
         return RegistrationResponse.fromJson(responseData);
       } else {
         // Handle non-200 status codes
-        String errorMessage = "Failed to register for event. Status code: ${response.statusCode}";
+        String errorMessage =
+            "Failed to register for event. Status code: ${response.statusCode}";
         try {
           final Map<String, dynamic> errorData = json.decode(response.body);
           if (errorData.containsKey('message')) {
-            errorMessage = errorData['message']; // Use message from backend if available
+            errorMessage =
+                errorData['message']; // Use message from backend if available
           }
         } catch (e) {
           // If response body is not valid JSON, use generic message
-          print("Error parsing error response: $e");
+          // print("Error parsing error response: $e");
         }
         throw Exception(errorMessage);
       }

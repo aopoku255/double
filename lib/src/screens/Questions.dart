@@ -40,7 +40,7 @@ class _QuestionsState extends State<Questions> {
       setState(() => _messages.addAll(questions));
       _scrollToBottom();
     } catch (e) {
-      debugPrint("Error loading messages: $e");
+      // debugPrint("Error loading messages: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Failed to load messages")),
       );
@@ -77,9 +77,10 @@ class _QuestionsState extends State<Questions> {
     try {
       final pref = await SharedPreferences.getInstance();
       final userId = pref.getInt("userId");
-      await _service.createQuestion(userId: userId!, question: text, isPublic: _isPublic);
+      await _service.createQuestion(
+          userId: userId!, question: text, isPublic: _isPublic);
     } catch (e) {
-      debugPrint("Error sending message: $e");
+      // debugPrint("Error sending message: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Failed to send message")),
       );
@@ -166,7 +167,6 @@ class _QuestionsState extends State<Questions> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,54 +181,52 @@ class _QuestionsState extends State<Questions> {
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : ListView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.all(16),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                final message = _messages[index];
-                final currentDateLabel =
-                _getMessageGroupLabel(message.createdAt);
+                    controller: _scrollController,
+                    padding: const EdgeInsets.all(16),
+                    itemCount: _messages.length,
+                    itemBuilder: (context, index) {
+                      final message = _messages[index];
+                      final currentDateLabel =
+                          _getMessageGroupLabel(message.createdAt);
 
-                // check if header needed
-                bool showHeader = false;
-                if (index == 0) {
-                  showHeader = true;
-                } else {
-                  final previousMessage = _messages[index - 1];
-                  final previousDateLabel =
-                  _getMessageGroupLabel(previousMessage.createdAt);
-                  if (currentDateLabel != previousDateLabel) {
-                    showHeader = true;
-                  }
-                }
+                      // check if header needed
+                      bool showHeader = false;
+                      if (index == 0) {
+                        showHeader = true;
+                      } else {
+                        final previousMessage = _messages[index - 1];
+                        final previousDateLabel =
+                            _getMessageGroupLabel(previousMessage.createdAt);
+                        if (currentDateLabel != previousDateLabel) {
+                          showHeader = true;
+                        }
+                      }
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    if (showHeader)
-                      Padding(
-                        padding:
-                        const EdgeInsets.symmetric(vertical: 8),
-                        child: Text(
-                          currentDateLabel,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    _buildMessage(message),
-                  ],
-                );
-              },
-            ),
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (showHeader)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                currentDateLabel,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                          _buildMessage(message),
+                        ],
+                      );
+                    },
+                  ),
           ),
           const Divider(height: 1),
           SafeArea(
             child: Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
               child: Row(
                 children: [
                   Expanded(
@@ -240,7 +238,8 @@ class _QuestionsState extends State<Questions> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16),
                         suffixIcon: DropdownButtonHideUnderline(
                           child: DropdownButton<bool>(
                             value: _isPublic,
@@ -254,7 +253,6 @@ class _QuestionsState extends State<Questions> {
                                 value: false,
                                 child: Text("Private"),
                               ),
-
                             ],
                             onChanged: (value) {
                               setState(() {
@@ -272,8 +270,7 @@ class _QuestionsState extends State<Questions> {
                     onPressed: _sendMessage,
                   ),
                 ],
-              )
-              ,
+              ),
             ),
           ),
         ],

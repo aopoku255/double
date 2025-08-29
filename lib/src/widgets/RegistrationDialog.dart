@@ -21,7 +21,7 @@ class RegistrationDialog extends StatelessWidget {
         TextButton(
           onPressed: () {
             // Handle form submission logic here
-            print("Registered Name: ${_nameController.text}");
+            // print("Registered Name: ${_nameController.text}");
             Navigator.of(context).pop(); // Close the dialog
           },
           child: Text("Submit"),

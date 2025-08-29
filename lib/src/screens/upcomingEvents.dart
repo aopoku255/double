@@ -37,7 +37,6 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
       height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
-
         gradient: LinearGradient(
           colors: [
             Color(0xFF120C1C), // Very dark purple
@@ -86,7 +85,7 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
                     // Calculate days remaining
                     String dayRemainingText = "";
                     bool isLiveEvent = false; // Initialize isLive to false
-                    print(event.eventImages);
+
                     try {
                       DateTime eventStartDate =
                           DateTime.parse(event.eventStartDate.toString());
@@ -150,17 +149,12 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
                               currentDateTime.isBefore(eventEndDateTime)) {
                             isLiveEvent = true;
                           }
-                        } catch (timeParseError) {
-                          print(
-                              "Error parsing time for live check: ${event.eventTitle} - $timeParseError");
-                        }
+                        } catch (timeParseError) {}
                         // --- End of live check ---
                       } else {
                         dayRemainingText = "Event has passed";
                       }
                     } catch (e) {
-                      print(
-                          "Error parsing date for event: ${event.eventTitle} - $e");
                       dayRemainingText = "Date error";
                     }
 

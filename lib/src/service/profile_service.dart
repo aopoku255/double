@@ -14,18 +14,16 @@ class ProfileService {
         },
       );
 
-
-
-      if (response.statusCode == 200 || response.statusCode ==201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final jsonResponse = json.decode(response.body) as Map<String, dynamic>;
-        print(jsonResponse);
+        // print(jsonResponse);
         return ProfileModel.fromJson(jsonResponse);
       } else {
-        print('Failed to load profile: ${response.statusCode}');
+        // print('Failed to load profile: ${response.statusCode}');
         return null;
       }
     } catch (e) {
-      print('Error fetching profile: $e');
+      // print('Error fetching profile: $e');
       return null;
     }
   }

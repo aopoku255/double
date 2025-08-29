@@ -126,7 +126,6 @@ class _SigninState extends State<Signin> {
           _showSnackbar(_errorMessage!);
         }
       } catch (e) {
-        print(e);
         setState(() {
           _errorMessage = 'Something went wrong. Please try again.';
         });
@@ -189,17 +188,16 @@ class _SigninState extends State<Signin> {
             _showSnackbar(_errorMessage!);
           }
         } catch (e) {
-          print(e);
           setState(() {
             _errorMessage = 'Something went wrong. Please try again.';
           });
           _showSnackbar(_errorMessage!);
         }
       } else {
-        print("User cancelled the sign-in");
+        // print("User cancelled the sign-in");
       }
     } catch (e) {
-      print("Error during Google sign-in: $e");
+      // print("Error during Google sign-in: $e");
     }
   }
 

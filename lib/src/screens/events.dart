@@ -1,3 +1,4 @@
+import 'package:doubles/src/app.dart';
 import 'package:doubles/src/screens/pastEvents.dart';
 import 'package:doubles/src/screens/upcomingEvents.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,15 +47,12 @@ class _EventsState extends State<Events> {
             padding: EdgeInsets.all(8.0),
             child: InkWell(
               onTap: (){
-                Navigator.pushNamed(context, "/profile");
+                Navigator.of(context, rootNavigator: true).pushNamed("/notifications");
               },
                 child: OvalIcon(icon: Icons.notifications_outlined)
             ),
           ),
-          actions: [
-            const OvalIcon(icon: Icons.more_vert),
-            const SizedBox(width: 10),
-          ],
+
           bottom:  TabBar(
             labelColor: Colors.white,
             indicatorColor: Colors.white,
