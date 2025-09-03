@@ -105,7 +105,7 @@ class _LoginState extends State<Login> {
                 BoldText(text: "Welcome", color: AppColors.primaryBlue, fontSize: 30,),
                 SizedBox(height: 5,),
                 MainText(text: "Get started with DOUBLES", color: AppColors.primaryBlue,),
-                SizedBox(height: 20,),
+                SizedBox(height: 80,),
                 Button(text: "Sign in", onTap: (){
                   Navigator.pushNamed(context, "/signin");
                 }, color: AppColors.primaryBtn,),
@@ -114,7 +114,7 @@ class _LoginState extends State<Login> {
                   Navigator.pushNamed(context, "/signup");
                 }, color: AppColors.primaryBtn),
                 SizedBox(height: 20,),
-                Button(text: "Sign in as a guest", color: AppColors.primaryBtn),
+                // Button(text: "Sign in as a guest", color: AppColors.primaryBtn),
 
               ],
             ),

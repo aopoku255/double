@@ -692,11 +692,39 @@ class _EventDetailsState extends State<EventDetails> {
                       SizedBox(
                         height: 20,
                       ),
+
+                      BoldText(
+                        text: "Speakers",
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                      SizedBox(height: 10,),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: event.eventHost
+                            .split(",")
+                            .map((e) {
+                          final parts = e.trim().split(" - ");
+                          final name = parts[0];
+                          final role = parts.length > 1 ? parts[1] : "";
+                          return Row(
+                            children: [
+                              MainText(text: name),        // speaker name
+                              SizedBox(width: 8, height: 25,),          // spacing
+                              MainText(text: "(${role})"), // speaker type
+                            ],
+                          );
+                        })
+                            .toList(),
+                      ),
+                      SizedBox(height: 20,),
                       BoldText(
                         text: "About Event",
                         fontSize: 14,
                         color: Colors.white,
                       ),
+
+
                       Html(
                         data: event.eventDescription,
                         style: {

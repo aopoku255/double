@@ -212,6 +212,13 @@ class _SigninState extends State<Signin> {
         title: MainText(text: "Sign in"),
         centerTitle: true,
       ),
+        bottomSheet: const SizedBox(
+          height: 30,
+          child: MainText(
+            text: "Doubles © 2025",
+            color: Colors.black54,
+          ),
+        ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -298,23 +305,23 @@ class _SigninState extends State<Signin> {
                         SizedBox(
                           height: 10,
                         ),
-                        Button(
-                          text: "Continue with Facebook",
-                          withIcon: true,
-                          color: Colors.white,
-                          iconImage: "assets/images/facebook.png",
-                          width: MediaQuery.of(context).size.width,
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Button(
-                          text: "Continue with X",
-                          withIcon: true,
-                          color: Colors.white,
-                          iconImage: "assets/images/twitter.png",
-                          width: MediaQuery.of(context).size.width,
-                        ),
+                        // Button(
+                        //   text: "Continue with Facebook",
+                        //   withIcon: true,
+                        //   color: Colors.white,
+                        //   iconImage: "assets/images/facebook.png",
+                        //   width: MediaQuery.of(context).size.width,
+                        // ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                        // Button(
+                        //   text: "Continue with X",
+                        //   withIcon: true,
+                        //   color: Colors.white,
+                        //   iconImage: "assets/images/twitter.png",
+                        //   width: MediaQuery.of(context).size.width,
+                        // ),
                       ],
                     ),
                   ))
