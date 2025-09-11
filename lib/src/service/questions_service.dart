@@ -22,6 +22,22 @@ class PersonalQuestionService {
     }
   }
 
+  Future<List<PersonalQuestion>> fetchPublicQuestions() async {
+    try {
+      final response =
+          await http.get(Uri.parse('$baseUrl/questions/public'));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = jsonDecode(response.body);
+        return PersonalQuestion.fromJsonList(jsonData);
+      } else {
+        throw Exception('Failed to load questions: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error fetching questions: $e');
+    }
+  }
+
   /// Create a new question
   Future<PersonalQuestion> createQuestion({
     required int userId,

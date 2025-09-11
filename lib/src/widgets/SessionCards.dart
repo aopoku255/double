@@ -1,4 +1,5 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
+import 'package:doubles/src/widgets/OvalIcon.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // Assuming ExpandedText.dart and main_text.dart are in the same widgets directory
@@ -94,7 +95,8 @@ class _SessionCardState extends State<SessionCard>
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(top: 20),
         width: MediaQuery.of(context).size.width,
-        height: 400,
+        constraints: const BoxConstraints(minHeight: 200),
+        // height: 560,
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.06),
           borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -102,17 +104,21 @@ class _SessionCardState extends State<SessionCard>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                image: DecorationImage(
-                  image: NetworkImage(widget.image),
-                  fit: BoxFit.cover,
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                widget.image,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stackTrace) =>
+                    Icon(Icons.broken_image, size: 50),
               ),
             ),
+
             const SizedBox(height: 10),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +186,8 @@ class _SessionCardState extends State<SessionCard>
                 // Render nothing if not live
                 if (widget.isLive != true) const SizedBox.shrink(),
               ],
-            )
+            ),
+            // Icon(BootstrapIcons.share)
           ],
         ),
       ),

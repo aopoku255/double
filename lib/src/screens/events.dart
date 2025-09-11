@@ -45,12 +45,9 @@ class _EventsState extends State<Events> {
           elevation: 0,
           leading:  Padding(
             padding: EdgeInsets.all(8.0),
-            child: InkWell(
-              onTap: (){
-                Navigator.of(context, rootNavigator: true).pushNamed("/notifications");
-              },
-                child: OvalIcon(icon: Icons.notifications_outlined)
-            ),
+            child: OvalIcon(icon: Icons.notifications_outlined, onPressed: () {
+              Navigator.pushNamed(context, '/notifications');
+            }),
           ),
 
           bottom:  TabBar(

@@ -2,6 +2,7 @@ import 'package:doubles/src/model/signup.dart';
 import 'package:doubles/src/service/baseUrl.dart';
 import 'package:doubles/src/themes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -85,6 +86,7 @@ class _SignupState extends State<Signup> {
         setState(() {
           _errorMessage = 'Something went wrong. Please try again.';
         });
+        setState(() => _isLoading = false);
         _showSnackbar(_errorMessage!);
       }
     }
@@ -208,9 +210,15 @@ class _SignupState extends State<Signup> {
                       TextFieldInput(
                         label: "First Name",
                         controller: _firstNameController,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                        ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'First Name is required';
+                          }
+                          if (value.length < 2) {
+                            return 'First Name must be at least 2 characters';
                           }
                           return null;
                         },
@@ -219,20 +227,35 @@ class _SignupState extends State<Signup> {
                       TextFieldInput(
                         label: "Last Name",
                         controller: _lastNameController,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
+                        ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Last Name is required';
                           }
+                          if (value.length < 2) {
+                            return 'Last Name must be at least 2 characters';
+                          }
                           return null;
                         },
                       ),
+
                       SizedBox(height: 20),
                       TextFieldInput(
                         label: "Phone Number",
                         controller: _phoneNumberController,
+                        keyboardType: TextInputType.phone,
+                        inputFormatters: [
+                          FilteringTextInputFormatter
+                              .digitsOnly, // only numbers
+                        ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Phone Number is required';
+                          }
+                          if (value.length != 10) {
+                            return 'Phone Number must be 10 digits';
                           }
                           return null;
                         },
@@ -246,7 +269,29 @@ class _SignupState extends State<Signup> {
                           if (value == null || value.isEmpty) {
                             return 'Password is required';
                           }
-                          return null;
+
+                          // Check length
+                          if (value.length < 8) {
+                            return 'Password must be at least 8 characters long';
+                          }
+
+                          // Check uppercase
+                          if (!RegExp(r'[A-Z]').hasMatch(value)) {
+                            return 'Password must contain at least one uppercase letter';
+                          }
+
+                          // Check number
+                          if (!RegExp(r'[0-9]').hasMatch(value)) {
+                            return 'Password must contain at least one number';
+                          }
+
+                          // Check special character
+                          if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]')
+                              .hasMatch(value)) {
+                            return 'Password must contain at least one special character';
+                          }
+
+                          return null; // valid
                         },
                       ),
                       SizedBox(height: 20),
@@ -255,6 +300,7 @@ class _SignupState extends State<Signup> {
                         onTap: _handleSignup,
                         width: MediaQuery.of(context).size.width,
                         color: AppColors.primaryBtn,
+                        isLoading: _isLoading,
                       ),
                       SizedBox(height: 40),
                       MainText(

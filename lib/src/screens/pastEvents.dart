@@ -70,7 +70,7 @@ class _PastEventsState extends State<PastEvents> {
                       height: 20,
                     ),
                     MainText(
-                      text: 'Opps! No upcoming events found',
+                      text: 'Opps! No past events found',
                       color: Colors.white,
                     ),
                   ],

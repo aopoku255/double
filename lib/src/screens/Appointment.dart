@@ -52,8 +52,10 @@ class _AppointmentState extends State<Appointment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const MainText(
           text: "Book Appointment",
+
           color: Colors.black,
         ),
         centerTitle: true,
@@ -61,11 +63,13 @@ class _AppointmentState extends State<Appointment> {
       body: Stack(
         children: [
           WebViewWidget(controller: _controller),
+          SizedBox(height: 120,),
           if (_isLoading)
             const Center(
               child: CircularProgressIndicator(),
             ),
         ],
+
       ),
     );
   }

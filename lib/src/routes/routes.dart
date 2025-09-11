@@ -1,4 +1,5 @@
 
+import 'package:doubles/src/screens/Checkin.dart';
 import 'package:doubles/src/screens/Info.dart';
 import 'package:doubles/src/screens/NotificationsScreen.dart';
 import 'package:doubles/src/screens/Profile.dart';
@@ -28,6 +29,7 @@ Map<String, WidgetBuilder> get appRoutes{
     '/profile': (context) => const Profile(),
     '/info': (context) => const Info(),
     '/notifications': (context) => const NotificationsScreen(),
+    '/qrcode': (context) => const Checkin(),
 
   };
   }

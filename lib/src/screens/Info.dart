@@ -28,7 +28,7 @@ class _InfoState extends State<Info> {
                 child: Container(
                   width: 200,
                   height: 200,
-                  decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/kobina.jpg"))),
+                  decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/kobina.png"))),
                 ),
               ),
         

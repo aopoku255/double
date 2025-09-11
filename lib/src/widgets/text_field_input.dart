@@ -1,5 +1,6 @@
 import 'package:doubles/src/themes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldInput extends StatefulWidget {
   final String label;
@@ -13,6 +14,8 @@ class TextFieldInput extends StatefulWidget {
   final List<String>? dropdownItems;
   final String? value;
   final void Function(String?)? onChanged;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
 
   const TextFieldInput({
     super.key,
@@ -25,6 +28,8 @@ class TextFieldInput extends StatefulWidget {
     this.dropdownItems,
     this.value,
     this.onChanged,
+    this.keyboardType,
+    this.inputFormatters,
   });
 
   @override
@@ -87,52 +92,54 @@ class _TextFieldInputState extends State<TextFieldInput> {
           ),
         )
             : TextFormField(
-          controller: widget.controller,
-          validator: widget.validator,
-          obscureText:
-          widget.isPasswordField == true ? _obscureText : false,
-          cursorColor: Colors.black,
-          maxLines: widget.isPasswordField == false
-              ? (widget.textarea == true ? 5 : 1)
-              : 1,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            border: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(
-                color: AppColors.primaryBlue,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(
-                color: AppColors.primaryBlue,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(
-                color: AppColors.primaryBlue,
-                width: 2,
-              ),
-            ),
-            suffixIcon: widget.isPasswordField == true
-                ? IconButton(
-              icon: Icon(
-                _obscureText
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-                color: AppColors.primaryBtn,
-              ),
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
-            )
-                : null,
-          ),
-        ),
+    controller: widget.controller,
+    validator: widget.validator,
+    obscureText: widget.isPasswordField == true ? _obscureText : false,
+    cursorColor: Colors.black,
+    maxLines: widget.isPasswordField == false
+    ? (widget.textarea == true ? 5 : 1)
+        : 1,
+    keyboardType: widget.keyboardType,
+    inputFormatters: widget.inputFormatters,
+    decoration: InputDecoration(
+    hintText: widget.hintText,
+    border: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(10)),
+    borderSide: BorderSide(
+    color: AppColors.primaryBlue,
+    ),
+    ),
+    enabledBorder: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(10)),
+    borderSide: BorderSide(
+    color: AppColors.primaryBlue,
+    ),
+    ),
+    focusedBorder: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(10)),
+    borderSide: BorderSide(
+    color: AppColors.primaryBlue,
+    width: 2,
+    ),
+    ),
+    suffixIcon: widget.isPasswordField == true
+    ? IconButton(
+    icon: Icon(
+    _obscureText
+    ? Icons.visibility_off
+        : Icons.visibility,
+    color: AppColors.primaryBtn,
+    ),
+    onPressed: () {
+    setState(() {
+    _obscureText = !_obscureText;
+    });
+    },
+    )
+        : null,
+    ),
+    ),
+
       ],
     );
   }

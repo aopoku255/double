@@ -129,6 +129,7 @@ class _SigninState extends State<Signin> {
         setState(() {
           _errorMessage = 'Something went wrong. Please try again.';
         });
+        setState(() => _isLoading = false);
         _showSnackbar(_errorMessage!);
       }
     }
@@ -269,11 +270,14 @@ class _SigninState extends State<Signin> {
                         SizedBox(
                           height: 20,
                         ),
+
                         Button(
+
                           text: "Sign in",
                           onTap: _handleSignin,
                           width: MediaQuery.of(context).size.width,
                           color: AppColors.primaryBtn,
+                          isLoading: _isLoading,
                         ),
                         TextButton(
                             onPressed: () {},
@@ -292,6 +296,7 @@ class _SigninState extends State<Signin> {
                         SizedBox(
                           height: 10,
                         ),
+
                         Button(
                           text: "Continue with Google",
                           withIcon: true,

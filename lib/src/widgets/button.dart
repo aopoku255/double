@@ -14,6 +14,7 @@ class Button extends StatelessWidget {
   final double fontSize;
   final bool? withIcon;
   final String? iconImage;
+  final bool? isLoading;
   final onTap;
   const Button({
     super.key,
@@ -23,7 +24,7 @@ class Button extends StatelessWidget {
     this.radius = 12.0,
     this.horizontal = 50,
     this.vertical = 15,
-    this.fontSize = 14, this.withIcon = false, this.iconImage = "assets/images/google.png",  this.height = 60, this.width = 350,
+    this.fontSize = 14, this.withIcon = false, this.iconImage = "",  this.height = 60, this.width = 350, this.isLoading = false,
   });
 
   @override
@@ -41,14 +42,35 @@ class Button extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(iconImage!, height: 30,),
+
             SizedBox(width: 20,),
+
             MainText(text: text, color: Colors.black,)
           ],
         ) : Center(
-          child: MainText(
-            text: text,
-            textAlign: TextAlign.center,
-            fontSize: fontSize,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              isLoading!
+                  ? const SizedBox(
+                width: 20,   // 👈 control size here
+                height: 20,
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                  strokeWidth: 2, // 👈 makes the spinner thinner
+                ),
+              )
+                  : const SizedBox(),
+
+              SizedBox(width: 10,),
+              Center(
+                child: MainText(
+                  text: text,
+                  textAlign: TextAlign.center,
+                  fontSize: fontSize,
+                ),
+              ),
+            ],
           ),
         ),
       ),
