@@ -51,7 +51,7 @@ class _SettingsState extends State<Settings> {
                     },
                     child: const ListTile(
                       leading: Icon(BootstrapIcons.info_circle),
-                      title: MainText(text: "About The App", color: Colors.black),
+                      title: MainText(text: "About Doubles", color: Colors.black),
                       trailing: Icon(Icons.chevron_right),
                     ),
                   ),

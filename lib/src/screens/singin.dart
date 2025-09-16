@@ -104,7 +104,7 @@ class _SigninState extends State<Signin> {
 
         setState(() => _isLoading = false);
 
-        if (response.statusCode == 201) {
+        if (response.statusCode == 201 || response.statusCode == 200) {
           final parsed = LoginResponse.fromJson(jsonDecode(response.body));
 
           if (parsed != null && parsed.data != null) {
@@ -168,6 +168,8 @@ class _SigninState extends State<Signin> {
 
           if (response.statusCode == 201) {
             final parsed = LoginResponse.fromJson(jsonDecode(response.body));
+            final data = jsonDecode(response.body);
+            debugPrint(data);
 
             if (parsed != null && parsed.data != null) {
               // ✅ Save token using SharedPreferences
@@ -280,7 +282,9 @@ class _SigninState extends State<Signin> {
                           isLoading: _isLoading,
                         ),
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, "/forgot-password");
+                            },
                             child: MainText(
                               text: "Forgot password?",
                               color: Colors.blue,

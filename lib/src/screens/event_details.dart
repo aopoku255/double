@@ -118,7 +118,7 @@ class _EventDetailsState extends State<EventDetails> {
                     color: Colors.white,
                     fontSize: 20,
                   ),
-                  MainText(text: "Hosted by ${event.eventHost}"),
+                  // MainText(text: "Hosted by ${event.eventHost}"),
                   const SizedBox(height: 20),
 
                   // Date section
@@ -273,38 +273,41 @@ class _EventDetailsState extends State<EventDetails> {
         height: 40,
         width: MediaQuery.of(context).size.width - 100,
         color: Colors.green,
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: MainText(text: "Enter your question", color: Colors.black),
-              content: Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey, width: 1.0),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const TextField(
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    hintText: "Type your question here...",
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("Submit"),
-                ),
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text("Cancel"),
-                ),
-              ],
-            ),
-          );
+        // onTap: () {
+        //   showDialog(
+        //     context: context,
+        //     builder: (context) => AlertDialog(
+        //       title: MainText(text: "Enter your question", color: Colors.black),
+        //       content: Container(
+        //         padding:
+        //         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        //         decoration: BoxDecoration(
+        //           border: Border.all(color: Colors.grey, width: 1.0),
+        //           borderRadius: BorderRadius.circular(8),
+        //         ),
+        //         child: const TextField(
+        //           maxLines: 5,
+        //           decoration: InputDecoration(
+        //             hintText: "Type your question here...",
+        //             border: InputBorder.none,
+        //           ),
+        //         ),
+        //       ),
+        //       actions: [
+        //         TextButton(
+        //           onPressed: () => Navigator.of(context).pop(),
+        //           child: const Text("Submit"),
+        //         ),
+        //         TextButton(
+        //           onPressed: () => Navigator.of(context).pop(),
+        //           child: const Text("Cancel"),
+        //         ),
+        //       ],
+        //     ),
+        //   );
+        // },
+        onTap: (){
+          Navigator.pushNamed(context, "/questions");
         },
       ),
     );
@@ -361,6 +364,7 @@ class _EventDetailsState extends State<EventDetails> {
               maxLines: 2,
             ),
           ),
+          isPastEvent ? _buildAskQuestionButton() :
           Center(
             child: Button(
               isLoading: isRegisterLoading,

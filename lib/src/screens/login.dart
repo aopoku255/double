@@ -85,38 +85,41 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             margin: const EdgeInsets.only(bottom: 100),
 
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                // User account image
-                // const SizedBox(height: 20),
-                // Input fields wrapped in a container for spacing
-                Spacer(),
-                // Container(
-                //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                //
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     borderRadius: BorderRadius.circular(10),
-                //   ),
-                //
-                // ),
-                const SizedBox(height: 20),
-                BoldText(text: "Welcome", color: AppColors.primaryBlue, fontSize: 30,),
-                SizedBox(height: 5,),
-                MainText(text: "Get started with DOUBLES", color: AppColors.primaryBlue,),
-                SizedBox(height: 80,),
-                Button(text: "Sign in", onTap: (){
-                  Navigator.pushNamed(context, "/signin");
-                }, color: AppColors.primaryBtn,),
-                SizedBox(height: 20,),
-                Button(text: "Sign up", onTap: (){
-                  Navigator.pushNamed(context, "/signup");
-                }, color: AppColors.primaryBtn),
-                SizedBox(height: 20,),
-                // Button(text: "Sign in as a guest", color: AppColors.primaryBtn),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // User account image
+                  // const SizedBox(height: 20),
+                  // Input fields wrapped in a container for spacing
+                  Spacer(),
+                  // Container(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                  //
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.white,
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  //
+                  // ),
+                  const SizedBox(height: 20),
+                  BoldText(text: "Welcome", color: AppColors.primaryBlue, fontSize: 30,),
+                  SizedBox(height: 5,),
+                  MainText(text: "Get started with DOUBLES", color: AppColors.primaryBlue,),
+                  SizedBox(height: 80,),
+                  Button(text: "Sign in", onTap: (){
+                    Navigator.pushNamed(context, "/signin");
+                  }, color: AppColors.primaryBtn,),
+                  SizedBox(height: 20,),
+                  Button(text: "Sign up", onTap: (){
+                    Navigator.pushNamed(context, "/signup");
+                  }, color: AppColors.primaryBtn),
+                  SizedBox(height: 20,),
+                  // Button(text: "Sign in as a guest", color: AppColors.primaryBtn),
 
-              ],
+                ],
+              ),
             ),
           ),
         ],

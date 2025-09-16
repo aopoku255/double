@@ -65,13 +65,13 @@ class _CheckinState extends State<Checkin>
 
       final data = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Check-in successful ✅")),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("${data['message']}")),
+          SnackBar(content: Text("An error occured")),
         );
       }
     } catch (e) {

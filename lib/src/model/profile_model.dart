@@ -40,6 +40,7 @@ class User {
   final String? nameOfSpouse;
   final String? ageOfSpouse;
   final String? phoneNumberOfSpouse;
+  final String? spouseEmail;
   final String? marriageDuration;
   final bool? firstTimeUser;
   final DateTime createdAt;
@@ -60,6 +61,7 @@ class User {
     this.ageOfSpouse,
     this.phoneNumberOfSpouse,
     this.marriageDuration,
+    this.spouseEmail,
     this.firstTimeUser,
     required this.createdAt,
     required this.updatedAt,
@@ -80,6 +82,7 @@ class User {
       nameOfSpouse: json['nameOfSpouse'],
       ageOfSpouse: json['ageOfSpouse'],
       phoneNumberOfSpouse: json['phoneNumberOfSpouse'],
+      spouseEmail: json['spouseEmail'],
       marriageDuration: json['marriageDuration'],
       firstTimeUser: json['firstTimeUser'],
       createdAt: DateTime.parse(json['createdAt']),
@@ -101,6 +104,7 @@ class User {
       'occupation': occupation,
       'nameOfSpouse': nameOfSpouse,
       'ageOfSpouse': ageOfSpouse,
+      'spouseEmail': spouseEmail,
       'phoneNumberOfSpouse': phoneNumberOfSpouse,
       'marriageDuration': marriageDuration,
       'firstTimeUser': firstTimeUser,

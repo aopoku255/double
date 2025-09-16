@@ -40,6 +40,7 @@ class Button extends StatelessWidget {
         ),
         child: withIcon! ? Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(iconImage!, height: 30,),
 
@@ -50,6 +51,7 @@ class Button extends StatelessWidget {
         ) : Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               isLoading!
                   ? const SizedBox(

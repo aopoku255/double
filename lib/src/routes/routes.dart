@@ -1,5 +1,6 @@
 
 import 'package:doubles/src/screens/Checkin.dart';
+import 'package:doubles/src/screens/ForgotPassword.dart';
 import 'package:doubles/src/screens/Info.dart';
 import 'package:doubles/src/screens/NotificationsScreen.dart';
 import 'package:doubles/src/screens/Profile.dart';
@@ -13,6 +14,8 @@ import 'package:doubles/src/screens/signup.dart';
 import 'package:doubles/src/screens/singin.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../screens/Questions.dart';
+import '../screens/ResetPassoword.dart';
 import '../screens/home.dart';
 
 Map<String, WidgetBuilder> get appRoutes{
@@ -21,6 +24,8 @@ Map<String, WidgetBuilder> get appRoutes{
     '/onboarding': (context) => const OnboardingScreen(),
     '/login': (context) => const Login(),
     '/signin': (context) => const Signin(),
+    '/forgot-password': (context) => const ForgotPassword(),
+    '/reset-password': (context) => const ResetPassword(),
     '/otp': (context) => const Otp(),
     '/signup': (context) => const Signup(),
     '/events': (context) => const Events(),
@@ -30,6 +35,8 @@ Map<String, WidgetBuilder> get appRoutes{
     '/info': (context) => const Info(),
     '/notifications': (context) => const NotificationsScreen(),
     '/qrcode': (context) => const Checkin(),
+    '/questions': (context) => const Questions(),
+
 
   };
   }

@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:doubles/src/model/signup.dart';
 import 'package:doubles/src/service/baseUrl.dart';
+import 'package:doubles/src/themes/colors.dart';
 import 'package:doubles/src/widgets/button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,6 +21,8 @@ class _OtpState extends State<Otp> {
   late Timer _timer;
   int _remainingSeconds = 600; // 10 minutes = 600 seconds
   late int userId;
+  late String message;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -54,7 +58,7 @@ class _OtpState extends State<Otp> {
     setState(() {
       otpCode = code;
     });
-    ;
+
   }
 
   @override
@@ -68,6 +72,7 @@ class _OtpState extends State<Otp> {
   // }
 
   Future<void> _verifyOtp() async {
+    setState(() => _isLoading = true);
     final url = Uri.parse(
         '${baseUrl}/auth/verify-otp'); // Replace with your real endpoint
 
@@ -78,16 +83,24 @@ class _OtpState extends State<Otp> {
         body: jsonEncode({'userId': userId, 'code': otpCode}),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         if (!mounted) return;
+       setState(() => _isLoading = false);
+     if(message == "OTP sent successfully"){
         Navigator.pushReplacementNamed(
-            context, '/signin'); // Change route as needed
+            context, '/reset-password', arguments: userId); // Change route as needed
+     }
+     else{
+       Navigator.pushReplacementNamed(
+           context, '/signin'); // Change route as needed
+     }
       } else {
         final body = jsonDecode(response.body);
         _showSnackbar(body['message'] ?? 'OTP verification failed');
       }
     } catch (e) {
       _showSnackbar('Something went wrong. Please try again.');
+      setState(() => _isLoading = false);
     }
   }
 
@@ -101,6 +114,8 @@ class _OtpState extends State<Otp> {
     final signupResponse =
         ModalRoute.of(context)?.settings.arguments as SignupResponseModel;
     userId = signupResponse.data.userId;
+    message = signupResponse.message;
+
     return Scaffold(
       appBar: AppBar(title: const Text("Enter OTP"), centerTitle: true),
       body: Padding(
@@ -111,25 +126,42 @@ class _OtpState extends State<Otp> {
             const Text(
               "We have sent an OTP to your email and phone number",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: AppColors.primaryBlue),
             ),
             const SizedBox(height: 32),
             OtpTextField(
               numberOfFields: 6,
+              autoFocus: true,
+              keyboardType: TextInputType.number,
+              textStyle: TextStyle(color: AppColors.primaryBlue),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              onCodeChanged: (String code) {
+                setState(() {
+                  otpCode = code;
+                });
+                // ✅ Auto-submit when length == 6
+                if (code.length == 6 && _remainingSeconds > 0) {
+                  _verifyOtp;
+                }
+              },
               onSubmit: handleSubmitOtp,
             ),
             const SizedBox(height: 16),
             Text(
               "OTP expires in ${_formatTime(_remainingSeconds)}",
-              style: const TextStyle(fontSize: 16, color: Colors.red),
+              style: const TextStyle(fontSize: 16, color: AppColors.primaryBlue),
             ),
             const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: otpCode.length == 6 && _remainingSeconds > 0
-                  ? _verifyOtp
-                  : null,
-              child: Button(text: "Verify"),
-            ),
+         Button(
+           isLoading: _isLoading,
+           color: AppColors.primaryBtn,
+           text: "Verify",  onTap: otpCode.length == 6 && _remainingSeconds > 0
+             ? _verifyOtp
+             : null,),
+
           ],
         ),
       ),

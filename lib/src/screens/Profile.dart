@@ -33,6 +33,7 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _spouseNameController = TextEditingController();
   final TextEditingController _spousePhoneController = TextEditingController();
   final TextEditingController _spouseAgeController = TextEditingController();
+  final TextEditingController _spouseEmailController = TextEditingController();
   final TextEditingController _marriageDurationController =
   TextEditingController();
 
@@ -53,19 +54,22 @@ class _ProfileState extends State<Profile> {
 
     final profile = await profileService.getUserProfile(userId.toString());
 
+
+
     if (mounted && profile != null) {
       setState(() {
         _profile = profile;
         _firstNameController.text = profile.data.firstName ?? '';
         _lastNameController.text = profile.data.lastName ?? '';
         _emailController.text = profile.data.email ?? '';
-        _phoneController.text = _profile?.data.phone ?? '';
+        _phoneController.text = _profile?.data.phone.toString().replaceAll("233", "") ?? '';
         _ageController.text = _profile?.data.age.toString() ?? '';
         selectedGender = _profile?.data.gender ?? '';
         selectedAge = _profile?.data.age.toString() ?? '';
         _occupationController.text = _profile?.data.occupation ?? '';
         _spouseNameController.text = _profile?.data.nameOfSpouse ?? '';
-        _spousePhoneController.text = _profile?.data.phoneNumberOfSpouse ?? '';
+        _spouseEmailController.text = _profile?.data.spouseEmail ?? '';
+        _spousePhoneController.text = _profile?.data.phoneNumberOfSpouse == null ? "" : _profile?.data.phoneNumberOfSpouse.toString().replaceAll("233", "") ?? '';
         selecteSpousedAge = _profile?.data.ageOfSpouse.toString() ?? '';
         _marriageDurationController.text =
             _profile?.data.marriageDuration ?? '';
@@ -90,6 +94,7 @@ class _ProfileState extends State<Profile> {
     _spouseNameController.dispose();
     _spousePhoneController.dispose();
     _spouseAgeController.dispose();
+    _spouseEmailController.dispose();
     _marriageDurationController.dispose();
     super.dispose();
   }
@@ -141,14 +146,13 @@ class _ProfileState extends State<Profile> {
               final updatedData = {
                 "firstName": _firstNameController.text,
                 "lastName": _lastNameController.text,
-                "email": _emailController.text,
-                "phone": _phoneController.text,
                 "gender": selectedGender,
                 "occupation": _occupationController.text,
                 "age": selectedAge,
                 "nameOfSpouse": _spouseNameController.text,
                 "phoneNumberOfSpouse": _spousePhoneController.text,
                 "ageOfSpouse": selecteSpousedAge,
+                "spouseEmail": _spouseEmailController.text,
                 "marriageDuration": _marriageDurationController.text,
                 "firstTimeUser": false
               };
@@ -198,12 +202,15 @@ class _ProfileState extends State<Profile> {
                   label: 'Email',
                   controller: _emailController,
                   validator: _validateMin2Chars,
+                  enable: false,
                 ),
                 const SizedBox(height: 20),
                 TextFieldInput(
                   label: 'Phone',
+                  isPhoneField: true,
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
+                  enable: false,
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(10),
@@ -244,14 +251,22 @@ class _ProfileState extends State<Profile> {
                 TextFieldInput(
                   label: 'Name of Spouse',
                   controller: _spouseNameController,
-                  validator: _validateMin2Chars,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
                   ],
                 ),
+                SizedBox(height: 20),
+                TextFieldInput(
+                  label: 'Spouse Email',
+                  controller: _spouseEmailController,
+                  validator: _validateMin2Chars,
+
+                ),
                 const SizedBox(height: 20),
                 TextFieldInput(
                   label: 'Phone Number of Spouse',
+                  isPhoneField: true,
+                  hintText: "eg. 54 509 8438",
                   controller: _spousePhoneController,
                   keyboardType: TextInputType.phone,
                   inputFormatters: [
@@ -281,13 +296,7 @@ class _ProfileState extends State<Profile> {
                     FilteringTextInputFormatter.digitsOnly, // only numbers
                     LengthLimitingTextInputFormatter(2),    // max 3 digits
                   ],
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'This field is required';
-                    }
 
-                    return null;
-                  },
                 ),
                 const SizedBox(height: 100),
               ],
