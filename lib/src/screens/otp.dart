@@ -139,15 +139,18 @@ class _OtpState extends State<Otp> {
                 FilteringTextInputFormatter.digitsOnly
               ],
               onCodeChanged: (String code) {
-                setState(() {
-                  otpCode = code;
-                });
+                setState(() => otpCode = code);
                 // ✅ Auto-submit when length == 6
                 if (code.length == 6 && _remainingSeconds > 0) {
-                  _verifyOtp;
+                  _verifyOtp();
                 }
               },
-              onSubmit: handleSubmitOtp,
+              onSubmit: (String code) {
+                otpCode = code;
+                if (_remainingSeconds > 0) {
+                  _verifyOtp();
+                }
+              },
             ),
             const SizedBox(height: 16),
             Text(

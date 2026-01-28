@@ -1,4 +1,4 @@
-package com.example.doubles
+package com.marriageconversation.doubles
 
 import io.flutter.embedding.android.FlutterActivity
 

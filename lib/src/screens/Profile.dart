@@ -259,7 +259,7 @@ class _ProfileState extends State<Profile> {
                 TextFieldInput(
                   label: 'Spouse Email',
                   controller: _spouseEmailController,
-                  validator: _validateMin2Chars,
+
 
                 ),
                 const SizedBox(height: 20),

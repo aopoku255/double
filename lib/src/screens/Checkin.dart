@@ -18,11 +18,17 @@ class _CheckinState extends State<Checkin>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late MobileScannerController _scannerController; // <-- add controller
   bool isProcessing = false;
 
   @override
   void initState() {
     super.initState();
+
+    _scannerController = MobileScannerController(
+      detectionSpeed: DetectionSpeed.normal,
+      facing: CameraFacing.back,
+    );
 
     _controller = AnimationController(
       vsync: this,
@@ -35,12 +41,16 @@ class _CheckinState extends State<Checkin>
   @override
   void dispose() {
     _controller.dispose();
+    _scannerController.dispose(); // <-- dispose scanner controller
     super.dispose();
   }
 
   /// Send check-in request
   Future<void> _checkinUser(int eventId) async {
-    setState(() => isProcessing = true);
+    setState(() {
+      isProcessing = true;
+    });
+    _scannerController.stop(); // <-- disable scanner when loading
 
     try {
       // Get userId from SharedPreferences
@@ -67,21 +77,25 @@ class _CheckinState extends State<Checkin>
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Check-in successful ✅")),
+          const SnackBar(content: MainText(text: "Check-in successful"), backgroundColor: Colors.green,),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("An error occured")),
+          SnackBar(content: MainText(text: data["message"] ?? "An error occurred"), backgroundColor: Colors.red,),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: $e")),
+        SnackBar(content: MainText(text: "Error: $e"), backgroundColor: Colors.red),
       );
     } finally {
-      setState(() => isProcessing = false);
+      setState(() {
+        isProcessing = false;
+      });
+      _scannerController.start(); // <-- re-enable scanner when done
     }
   }
+
 
   Widget _buildScannerOverlay(BuildContext context) {
     return LayoutBuilder(
@@ -153,7 +167,10 @@ class _CheckinState extends State<Checkin>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: MainText(text: "Scan QR Code", color: AppColors.primaryBtn,),
+        title: MainText(
+          text: "Scan QR Code",
+          color: AppColors.primaryBtn,
+        ),
         centerTitle: true,
         foregroundColor: AppColors.primaryBtn,
       ),
@@ -161,18 +178,14 @@ class _CheckinState extends State<Checkin>
       body: Stack(
         children: [
           MobileScanner(
-            controller: MobileScannerController(
-              detectionSpeed: DetectionSpeed.normal,
-              facing: CameraFacing.back,
-            ),
+            controller: _scannerController, // <-- use controller here
             onDetect: (capture) async {
-              if (isProcessing) return; // avoid multiple requests
+              if (isProcessing) return;
 
               final List<Barcode> barcodes = capture.barcodes;
               for (final barcode in barcodes) {
                 if (barcode.rawValue != null) {
                   try {
-                    // Assume QR code contains just eventId
                     final eventId = int.parse(barcode.rawValue!);
                     await _checkinUser(eventId);
                   } catch (e) {

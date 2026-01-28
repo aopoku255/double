@@ -1,29 +1,29 @@
 import 'package:doubles/src/app.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+
+Future<void> handleBackgroundMessage(RemoteMessage message) async {
+  print('Title😊: ${message.notification?.title}');
+  print('Body😁: ${message.notification?.body}');
+  print('Payload: ${message.data}');
+}
+
+Future<void> handleForegroundMessage(RemoteMessage message) async {
+  print('😁: ${message.notification?.body}');
+}
+
 class FirebaseApi {
-  // Create an instance of firebase messaging
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-  // Request permission for iOS
-  Future<void> requestPermission() async {
-    NotificationSettings settings =
-        await _firebaseMessaging.requestPermission();
 
-    // Get the FCM token
-    String? token = await _firebaseMessaging.getToken();
-    initPushNotifications();
-  }
 
-  void handleMessage(RemoteMessage? message) {
-    if (message == null) return;
+  Future<void> initNotifications() async {
+    await _firebaseMessaging.requestPermission();
+    final token = await _firebaseMessaging.getToken();
+    print('FCM Token😁😁: $token');
 
-    navigatorKey.currentState?.pushNamed('/events', arguments: message);
-  }
-
-  Future initPushNotifications() async {
-    FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
-
-    FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+    FirebaseMessaging.onMessage.listen(handleForegroundMessage);
+    
+    FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
   }
 }

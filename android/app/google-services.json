@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:386920527201:android:d827a64cba935f8adac120",
+        "mobilesdk_app_id": "1:386920527201:android:9e0c1d10c68f1992dac120",
         "android_client_info": {
-          "package_name": "com.example.doubles"
+          "package_name": "com.marriageconversation.doubles"
         }
       },
       "oauth_client": [],

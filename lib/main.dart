@@ -8,6 +8,6 @@ import 'src/app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await FirebaseApi().requestPermission();
+  await FirebaseApi().initNotifications();
   runApp(const App());
 }
