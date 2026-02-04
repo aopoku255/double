@@ -13,6 +13,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../service/profile_service.dart';
 import '../widgets/OvalIcon.dart';
 
 class EventDetails extends StatefulWidget {
@@ -25,13 +26,21 @@ class EventDetails extends StatefulWidget {
 class _EventDetailsState extends State<EventDetails> {
   final EventService registerEvent = EventService();
   late Future<List<Registrant>> _futureRegistrants;
+  final profileService = ProfileService();
   late int eventId;
   bool isRegisterLoading = false;
+  late String gender;
+  late String nameOfSpouse;
+  late String ageOfSpouse;
+  late String phoneNumberOfSpouse;
+  late String spouseEmail;
+  late String marriageDuration;
 
   @override
   void initState() {
     super.initState();
     fetchRegisteredUser();
+    fetchUserDetails();
   }
 
   @override
@@ -48,6 +57,14 @@ class _EventDetailsState extends State<EventDetails> {
         _futureRegistrants = registerEvent.getRegistrants(userId, eventId);
       });
     }
+  }
+
+  Future<void> fetchUserDetails() async {
+    final pref = await SharedPreferences.getInstance();
+    final userId = pref.getInt("userId");
+    final profile = await profileService.getUserProfile(userId.toString());
+    nameOfSpouse = profile?.data.nameOfSpouse ?? '';
+    spouseEmail = profile?.data.spouseEmail ?? '';
   }
 
   @override
@@ -70,13 +87,14 @@ class _EventDetailsState extends State<EventDetails> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading:  Padding(
+        leading: Padding(
           padding: EdgeInsets.all(8.0),
-          child: OvalIcon(icon: Icons.notifications_outlined, onPressed: (){
-            Navigator.pushNamed(context, '/notifications');
-          }),
+          child: OvalIcon(
+              icon: Icons.notifications_outlined,
+              onPressed: () {
+                Navigator.pushNamed(context, '/notifications');
+              }),
         ),
-
       ),
       body: Container(
         width: double.infinity,
@@ -109,8 +127,7 @@ class _EventDetailsState extends State<EventDetails> {
                       errorBuilder: (context, error, stackTrace) =>
                           Icon(Icons.broken_image, size: 50),
                     ),
-                  )
-                  ,
+                  ),
                   const SizedBox(height: 20),
 
                   BoldText(
@@ -122,50 +139,53 @@ class _EventDetailsState extends State<EventDetails> {
                   const SizedBox(height: 20),
 
                   // Date section
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 35,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 1.0),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Column(
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
                         width: 35,
-                        color: Colors.white.withOpacity(0.40),
-                        child: Center(
-                          child: MainText(
-                            text: DateFormat('MMM').format(event.eventStartDate), // e.g. Mar
-                            fontSize: 10,
-                          ),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 1.0),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 35,
+                              color: Colors.white.withOpacity(0.40),
+                              child: Center(
+                                child: MainText(
+                                  text: DateFormat('MMM')
+                                      .format(event.eventStartDate), // e.g. Mar
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ),
+                            MainText(
+                              fontSize: 12,
+                              text: DateFormat('d')
+                                  .format(event.eventStartDate), // e.g. 27
+                            ),
+                          ],
                         ),
                       ),
-                      MainText(
-                        fontSize: 12,
-                        text: DateFormat('d').format(event.eventStartDate), // e.g. 27
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          MainText(
+                            text: DateFormat('EEEE d MMMM')
+                                .format(event.eventStartDate),
+                            fontWeight: FontWeight.bold,
+                          ),
+                          MainText(
+                            text: "$formattedStartTime - $formattedEndTime GMT",
+                            fontSize: 12,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MainText(
-                      text: DateFormat('EEEE d MMMM').format(event.eventStartDate),
-                      fontWeight: FontWeight.bold,
-                    ),
-                    MainText(
-                      text: "$formattedStartTime - $formattedEndTime GMT",
-                      fontSize: 12,
-                    ),
-                  ],
-                ),
-              ],
-            ),
                   const SizedBox(height: 10),
 
                   // Location section
@@ -201,8 +221,7 @@ class _EventDetailsState extends State<EventDetails> {
                   FutureBuilder<List<Registrant>>(
                     future: _futureRegistrants,
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState ==
-                          ConnectionState.waiting) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
                           child: CircularProgressIndicator(),
                         );
@@ -306,7 +325,7 @@ class _EventDetailsState extends State<EventDetails> {
         //     ),
         //   );
         // },
-        onTap: (){
+        onTap: () {
           Navigator.pushNamed(context, "/questions");
         },
       ),
@@ -364,17 +383,18 @@ class _EventDetailsState extends State<EventDetails> {
               maxLines: 2,
             ),
           ),
-          isPastEvent ? _buildAskQuestionButton() :
-          Center(
-            child: Button(
-              isLoading: isRegisterLoading,
-              text: "Register",
-              height: 40,
-              width: MediaQuery.of(context).size.width - 100,
-              color: Colors.purple,
-              onTap: () => _showRegisterDialog(event),
-            ),
-          ),
+          isPastEvent
+              ? _buildAskQuestionButton()
+              : Center(
+                  child: Button(
+                    isLoading: isRegisterLoading,
+                    text: "Register",
+                    height: 40,
+                    width: MediaQuery.of(context).size.width - 100,
+                    color: Colors.purple,
+                    onTap: () => _showRegisterDialog(event),
+                  ),
+                ),
         ],
       ),
     );
@@ -393,44 +413,80 @@ class _EventDetailsState extends State<EventDetails> {
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                RadioListTile<String>(
-                  title: const Text("Alone"),
-                  value: "0",
-                  groupValue: selectedOption,
-                  onChanged: (value) =>
-                      setStateDialog(() => selectedOption = value),
-                ),
-                RadioListTile<String>(
-                  title: const Text("With my partner"),
-                  value: "1",
-                  groupValue: selectedOption,
-                  onChanged: (value) =>
-                      setStateDialog(() => selectedOption = value),
-                ),
-              ],
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioListTile<String>(
+                    title: const Text("Alone"),
+                    value: "0",
+                    groupValue: selectedOption,
+                    onChanged: (value) {
+                      setStateDialog(() => selectedOption = value);
+                    },
+                  ),
+                  RadioListTile<String>(
+                    title: const Text("With my partner"),
+                    value: "1",
+                    groupValue: selectedOption,
+                    onChanged: (value) {
+                      if ((spouseEmail ?? "").isEmpty ||
+                          (gender ?? "").isEmpty ||
+                          (ageOfSpouse ?? "").isEmpty ||
+                          (phoneNumberOfSpouse ?? "").isEmpty ||
+                          (marriageDuration ?? "").isEmpty ||
+                          (nameOfSpouse ?? "").isEmpty) {
+                        Navigator.of(context).pop(); // close the dialog first
+                        Navigator.pushNamed(context, "/profile");
+                      } else {
+                        setStateDialog(() => selectedOption = value);
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
             actions: [
               TextButton(
                 onPressed: () async {
+                  Navigator.of(context).pop(); // close dialog before processing
                   setState(() => isRegisterLoading = true);
-                  Navigator.of(context).pop();
 
                   final pref = await SharedPreferences.getInstance();
                   final userId = pref.getInt("userId") ?? 0;
                   final attendingWithSpouse = selectedOption == "1";
 
-                  final response = await registerEvent.registerEvent(
-                    eventId: event.id,
-                    userId: userId,
-                    attendingWithSpouse: attendingWithSpouse,
-                  );
+                  try {
+                    final response = await registerEvent.registerEvent(
+                      eventId: event.id,
+                      userId: userId,
+                      attendingWithSpouse: attendingWithSpouse,
+                    );
 
-                  if (response.status == "Success" && mounted) {
+                    if (!mounted) return;
+
+                    if (response.status == "Success") {
+                      setState(() => isRegisterLoading = false);
+                      fetchRegisteredUser(); // refresh to load QR code
+                    } else {
+                      setState(() => isRegisterLoading = false);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            response.message ??
+                                "Failed to register. Try again.",
+                          ),
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    if (!mounted) return;
                     setState(() => isRegisterLoading = false);
-                    fetchRegisteredUser(); // 🔑 refresh the future to load QR code
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("Error: ${e.toString()}"),
+                      ),
+                    );
                   }
                 },
                 child: const Text("Submit"),
@@ -445,5 +501,4 @@ class _EventDetailsState extends State<EventDetails> {
       },
     );
   }
-
 }

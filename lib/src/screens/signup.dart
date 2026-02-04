@@ -74,6 +74,8 @@ class _SignupState extends State<Signup> {
 
         setState(() => _isLoading = false);
 
+        print(jsonDecode(response.body));
+
         if (response.statusCode == 201) {
           final parsed =
           SignupResponseModel.fromJson(jsonDecode(response.body));

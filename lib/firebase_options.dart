@@ -25,9 +25,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -42,17 +48,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBRvbO_K-Ts7lnihDcjQbFEcnzFeonKqWw',
-    appId: '1:386920527201:web:75e8238818a9ee51dac120',
+    appId: '1:386920527201:web:5b2b58492dbd27a6dac120',
     messagingSenderId: '386920527201',
     projectId: 'doubles-4dc90',
     authDomain: 'doubles-4dc90.firebaseapp.com',
     storageBucket: 'doubles-4dc90.firebasestorage.app',
-    measurementId: 'G-6WDR6VE3LK',
+    measurementId: 'G-QBTBF569Z9',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBtyPRt12ny_pa6DKdb4GJUBHllg-PA9yg',
-    appId: '1:386920527201:android:d827a64cba935f8adac120',
+    appId: '1:386920527201:android:9e0c1d10c68f1992dac120',
     messagingSenderId: '386920527201',
     projectId: 'doubles-4dc90',
     storageBucket: 'doubles-4dc90.firebasestorage.app',
@@ -60,29 +66,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBMDNy0JcO5Jh8shlKGWEns6D-Wn_a7G_c',
-    appId: '1:386920527201:ios:2544df6c380c8f4ddac120',
+    appId: '1:386920527201:ios:d00984e75b9a9d58dac120',
     messagingSenderId: '386920527201',
     projectId: 'doubles-4dc90',
     storageBucket: 'doubles-4dc90.firebasestorage.app',
-    iosBundleId: 'com.example.double',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBMDNy0JcO5Jh8shlKGWEns6D-Wn_a7G_c',
-    appId: '1:386920527201:ios:2544df6c380c8f4ddac120',
-    messagingSenderId: '386920527201',
-    projectId: 'doubles-4dc90',
-    storageBucket: 'doubles-4dc90.firebasestorage.app',
-    iosBundleId: 'com.example.double',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBRvbO_K-Ts7lnihDcjQbFEcnzFeonKqWw',
-    appId: '1:386920527201:web:a6883fb591804a8edac120',
-    messagingSenderId: '386920527201',
-    projectId: 'doubles-4dc90',
-    authDomain: 'doubles-4dc90.firebaseapp.com',
-    storageBucket: 'doubles-4dc90.firebasestorage.app',
-    measurementId: 'G-TBD30LR11L',
+    iosBundleId: 'com.marriageconversation.doubles',
   );
 }

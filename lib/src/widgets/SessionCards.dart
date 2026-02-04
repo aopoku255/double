@@ -85,9 +85,12 @@ class _SessionCardState extends State<SessionCard>
 
   @override
   Widget build(BuildContext context) {
-    final String formattedDate = DateFormat('EEE, MMM d, y').format(widget.eventDate);
-    final DateTime parsedStartTime = DateFormat("HH:mm:ss").parse(widget.startTime);
-    final String formattedStartTime = DateFormat("hh:mm a").format(parsedStartTime);
+    final String formattedDate =
+    DateFormat('EEE, MMM d, y').format(widget.eventDate);
+    final DateTime parsedStartTime =
+    DateFormat("HH:mm:ss").parse(widget.startTime);
+    final String formattedStartTime =
+    DateFormat("hh:mm a").format(parsedStartTime);
 
     return InkWell(
       onTap: widget.onTap,
@@ -96,7 +99,6 @@ class _SessionCardState extends State<SessionCard>
         margin: const EdgeInsets.only(top: 20),
         width: MediaQuery.of(context).size.width,
         constraints: const BoxConstraints(minHeight: 200),
-        // height: 560,
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.06),
           borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -104,6 +106,7 @@ class _SessionCardState extends State<SessionCard>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /// Image
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
@@ -112,26 +115,28 @@ class _SessionCardState extends State<SessionCard>
                 width: double.infinity,
                 loadingBuilder: (context, child, progress) {
                   if (progress == null) return child;
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 },
                 errorBuilder: (context, error, stackTrace) =>
-                    Icon(Icons.broken_image, size: 50),
+                const Icon(Icons.broken_image, size: 50),
               ),
             ),
 
             const SizedBox(height: 10),
+
+            /// Title + Start Time
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
+                Expanded(
                   child: MainText(
                     text: widget.sessionTitle,
                     fontSize: 20,
                     maxLines: 2,
+
                   ),
                 ),
+                const SizedBox(width: 10),
                 MainText(
                   text: formattedStartTime,
                   color: Colors.white,
@@ -139,34 +144,51 @@ class _SessionCardState extends State<SessionCard>
                 ),
               ],
             ),
+
             const SizedBox(height: 10),
+
+            /// Location
             Row(
               children: [
-                const Icon(BootstrapIcons.geo_alt, color: Colors.white, size: 15),
+                const Icon(BootstrapIcons.geo_alt,
+                    color: Colors.white, size: 15),
                 const SizedBox(width: 10),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: MainText(text: widget.location, maxLines: 1),
+                Expanded(
+                  child: MainText(
+                    text: widget.location,
+                    maxLines: 1,
+
+                  ),
                 ),
               ],
             ),
+
             const SizedBox(height: 10),
+
+            /// Date
             Row(
               children: [
-                const Icon(BootstrapIcons.calendar, color: Colors.white, size: 15),
+                const Icon(BootstrapIcons.calendar,
+                    color: Colors.white, size: 15),
                 const SizedBox(width: 10),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: MainText(text: formattedDate, maxLines: 1),
+                Expanded(
+                  child: MainText(
+                    text: formattedDate,
+                    maxLines: 1,
+
+                  ),
                 ),
               ],
             ),
+
             const SizedBox(height: 5),
+
+            /// Days remaining + Live indicator
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 MainText(text: widget.dayRemaining!),
-                // Conditional rendering with animation for the "Live" indicator
+
                 if (widget.isLive == true)
                   AnimatedBuilder(
                     animation: _scaleAnimation,
@@ -175,19 +197,22 @@ class _SessionCardState extends State<SessionCard>
                         scale: _scaleAnimation.value,
                         child: Row(
                           children: const [
-                            Icon(BootstrapIcons.broadcast, color: Colors.green, size: 15,),
+                            Icon(
+                              BootstrapIcons.broadcast,
+                              color: Colors.green,
+                              size: 15,
+                            ),
                             SizedBox(width: 5),
                             MainText(text: "Live", color: Colors.green),
                           ],
                         ),
                       );
                     },
-                  ),
-                // Render nothing if not live
-                if (widget.isLive != true) const SizedBox.shrink(),
+                  )
+                else
+                  const SizedBox.shrink(),
               ],
             ),
-            // Icon(BootstrapIcons.share)
           ],
         ),
       ),
