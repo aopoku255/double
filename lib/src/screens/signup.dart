@@ -173,7 +173,7 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(0.95),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: AppColors.primaryBlue,
         foregroundColor: Colors.white,
@@ -188,6 +188,16 @@ class _SignupState extends State<Signup> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Container(
+                height: 300,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/homebanner.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
               MainText(
                 text: "GET STARTED WITH DOUBLES",
                 color: AppColors.primaryBlue,
@@ -313,21 +323,21 @@ class _SignupState extends State<Signup> {
                       isLoading: _isLoading,
 
                     ),
-                    const SizedBox(height: 40),
-                    MainText(
-                        text: "OTHER SIGN UP METHODS", color: Colors.black),
-                    const SizedBox(height: 10),
-                    Button(
-                      text: "Continue with Google",
-                      withIcon: true,
-                      color: Colors.white,
-                      iconImage: "assets/images/google.png",
-                      width: MediaQuery.of(context).size.width,
-                      isLoading: _isGoogleSignInLoading,
-                      onTap: () {
-                        signInWithGoogle();
-                      },
-                    ),
+                    // const SizedBox(height: 40),
+                    // MainText(
+                    //     text: "OTHER SIGN UP METHODS", color: Colors.black),
+                    // const SizedBox(height: 10),
+                    // Button(
+                    //   text: "Continue with Google",
+                    //   withIcon: true,
+                    //   color: Colors.white,
+                    //   iconImage: "assets/images/google.png",
+                    //   width: MediaQuery.of(context).size.width,
+                    //   isLoading: _isGoogleSignInLoading,
+                    //   onTap: () {
+                    //     signInWithGoogle();
+                    //   },
+                    // ),
                     const SizedBox(height: 50),
                   ],
                 ),
