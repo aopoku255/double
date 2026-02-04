@@ -45,6 +45,8 @@
     <true/>
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
+    <key>NSCameraUsageDescription</key>
+    <string>Doubles uses the camera to scan QR codes for event check-in.</string>
     <key>UIStatusBarHidden</key>
     <false/>
   </dict>
